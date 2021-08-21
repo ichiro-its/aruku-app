@@ -10,6 +10,8 @@ import MuiTypography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import MUIDataTable from "mui-datatables";
 
+import { Link } from 'react-router-dom';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -197,7 +199,13 @@ function Walk() {
           <Button variant="contained" color="primary" className={classes.button}>
             Save
           </Button>
-          <Button variant="contained" color="secondary" className={classes.button}>
+          <Button 
+            component={Link}
+            to="/"
+            variant="contained"
+            color="secondary"
+            className={classes.button}
+          >
             Reload
           </Button>
         </CardContent>
