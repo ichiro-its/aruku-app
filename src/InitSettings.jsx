@@ -1,5 +1,6 @@
 /* eslint no-unused-vars: ["error", { "args": "none" }] */
 import React from "react";
+import { Link } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -9,8 +10,6 @@ import TextField from "@material-ui/core/TextField";
 import MuiTypography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import MUIDataTable from "mui-datatables";
-
-import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     padding: theme.spacing(2),
     textAlign: "center",
-  }
+  },
 }));
 
 const columns = [
@@ -57,7 +56,7 @@ const leftData = [
   { name: "left_hip_pitch", value: 5 },
   { name: "left_knee", value: 0 },
   { name: "left_ankle_roll", value: -2 },
-  { name: "left_ankle_pitch", value: 0 }
+  { name: "left_ankle_pitch", value: 0 },
 ];
 
 const rightData = [
@@ -69,7 +68,7 @@ const rightData = [
   { name: "right_hip_pitch", value: 5 },
   { name: "right_knee", value: 0 },
   { name: "right_ankle_roll", value: 2 },
-  { name: "right_ankle_pitch", value: 0 }
+  { name: "right_ankle_pitch", value: 0 },
 ];
 
 const options = {
@@ -86,7 +85,7 @@ const options = {
 
 function Init() {
   const classes = useStyles();
-  
+
   return (
     <div className={classes.root}>
       <Card>
@@ -116,10 +115,14 @@ function Init() {
               />
             </Grid>
           </Grid>
-          <Button variant="contained" color="primary" className={classes.button}>
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.button}
+          >
             Save
           </Button>
-          <Button 
+          <Button
             component={Link}
             to="/Init"
             variant="contained"
