@@ -123,8 +123,6 @@ function Walk() {
                   rowHeight={40}
                   disableColumnMenu
                   rowsPerPageOptions={[]}
-                  // checkboxSelection
-                  // disableSelectionOnClick
                 />
               </div>
               <MuiTypography variant="h6">Balance</MuiTypography>
@@ -135,8 +133,6 @@ function Walk() {
                   rowHeight={40}
                   disableColumnMenu
                   rowsPerPageOptions={[]}
-                  // checkboxSelection
-                  // disableSelectionOnClick
                 />
               </div>
               <MuiTypography variant="h6">PID</MuiTypography>
@@ -147,8 +143,6 @@ function Walk() {
                   rowHeight={40}
                   disableColumnMenu
                   rowsPerPageOptions={[]}
-                  // checkboxSelection
-                  // disableSelectionOnClick
                 />
               </div>
             </Grid>
@@ -161,8 +155,6 @@ function Walk() {
                   rowHeight={40}
                   disableColumnMenu
                   rowsPerPageOptions={[]}
-                  // checkboxSelection
-                  // disableSelectionOnClick
                 />
               </div>
               <MuiTypography variant="h6">Kinematic</MuiTypography>
@@ -173,8 +165,6 @@ function Walk() {
                   rowHeight={40}
                   disableColumnMenu
                   rowsPerPageOptions={[]}
-                  // checkboxSelection
-                  // disableSelectionOnClick
                 />
               </div>
               <MuiTypography variant="h6">Odometry</MuiTypography>
@@ -185,8 +175,6 @@ function Walk() {
                   rowHeight={40}
                   disableColumnMenu
                   rowsPerPageOptions={[]}
-                  // checkboxSelection
-                  // disableSelectionOnClick
                 />
               </div>
             </Grid>

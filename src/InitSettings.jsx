@@ -90,8 +90,6 @@ function Init() {
                   rowHeight={40}
                   disableColumnMenu
                   rowsPerPageOptions={[]}
-                  // checkboxSelection
-                  // disableSelectionOnClick
                 />
               </div>
             </Grid>
@@ -104,8 +102,6 @@ function Init() {
                   rowHeight={40}
                   disableColumnMenu
                   rowsPerPageOptions={[]}
-                  // checkboxSelection
-                  // disableSelectionOnClick
                 />
               </div>
             </Grid>
