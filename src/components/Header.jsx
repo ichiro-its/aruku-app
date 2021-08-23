@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+    margin: theme.spacing(1),
   },
 }));
 
