@@ -1,204 +1,194 @@
-/* eslint no-unused-vars: ["error", { "args": "none" }] */
-import React from "react";
-import { Link } from "react-router-dom";
-import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import Grid from "@material-ui/core/Grid";
-import MuiTypography from "@material-ui/core/Typography";
-import { DataGrid } from "@material-ui/data-grid";
-import { makeStyles } from "@material-ui/core/styles";
+import * as React from "react";
+import { styled } from "@mui/material/styles";
+import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableRow from "@mui/material/TableRow";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  button: {
-    margin: "10px",
-  },
-  table: {
-    marginBottom: "10px",
-  },
-  title: {
-    padding: theme.spacing(2),
-    textAlign: "center",
-  },
+import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
+import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
+import IconButton from "@mui/material/IconButton";
+import FirstPageIcon from "@mui/icons-material/FirstPage";
+import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
+import LastPageIcon from "@mui/icons-material/LastPage";
+
+// import NumberInput from "./components/NumberInput";
+
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: "center",
+  color: theme.palette.text.secondary,
 }));
 
-const columns = [
-  {
-    field: "id",
-    headerName: "#",
-    width: 15,
-    editable: true,
-    sortable: false,
-  },
-  { field: "name", headerName: "Name", width: 300, sortable: false },
-  {
-    field: "value",
-    headerName: "Value",
-    width: 100,
-    type: "number",
-    editable: true,
-    sortable: false,
-  },
+const ItemTitle = styled(Typography)(({ theme }) => ({
+  textAlign: "left",
+  padding: theme.spacing(1),
+}));
+
+const LeftItemRows = [
+  NumberInput("LEFT_SHOULDER_PITCH", 15),
+  NumberInput("LEFT_SHOULDER_ROLL", 10),
+  NumberInput("LEFT_ELBOW", 50),
+  NumberInput("LEFT_HIP_YAW", 3),
+  NumberInput("LEFT_HIP_ROLL", -3),
+  NumberInput("LEFT_HIP_PITCH", 5),
+  NumberInput("LEFT_KNEE", 0),
+  NumberInput("LEFT_ANKLE_ROLL", -2),
+  NumberInput("LEFT_ANKLE_PITCH", 0),
 ];
 
-const ratioData = [
-  { id: 1, name: "forward_hip_comp_ratio", value: 0.0 },
-  { id: 2, name: "dsp_comp_ratio", value: 0.0 },
-  { id: 3, name: "period_time", value: 810.0 },
-  { id: 4, name: "swing_right_left", value: 15.0 },
-  { id: 5, name: "dsp_ratio", value: -0.12 },
-  { id: 6, name: "period_comp_ratio", value: 0.0 },
-  { id: 7, name: "swing_up_down", value: -1.0 },
-  { id: 8, name: "arm_swing_gain", value: 0.2 },
-  { id: 9, name: "backward_hip_comp_ratio", value: 0.0 },
-  { id: 10, name: "foot_comp_ratio", value: 0.0 },
-  { id: 11, name: "foot_height", value: 30.0 },
-  { id: 12, name: "move_accel_ratio", value: 1.0 },
-  { id: 13, name: "foot_accel_ratio", value: 0.2 },
+const RightItemRows = [
+  NumberInput("RIGHT_SHOULDER_PITCH", 15),
+  NumberInput("RIGHT_SHOULDER_ROLL", 10),
+  NumberInput("RIGHT_ELBOW", 50),
+  NumberInput("RIGHT_HIP_YAW", 3),
+  NumberInput("RIGHT_HIP_ROLL", -3),
+  NumberInput("RIGHT_HIP_PITCH", 5),
+  NumberInput("RIGHT_KNEE", 0),
+  NumberInput("RIGHT_ANKLE_ROLL", -2),
+  NumberInput("RIGHT_ANKLE_PITCH", 0),
 ];
 
-const offsetData = [
-  { id: 1, name: "y_offset", value: 0.0 },
-  { id: 2, name: "roll_offset", value: 1.0 },
-  { id: 3, name: "hip_pitch_offset", value: 23.0 },
-  { id: 4, name: "pitch_offset", value: -0.4 },
-  { id: 5, name: "yaw_offset", value: 0.1 },
-  { id: 6, name: "z_offset", value: 25.0 },
-  { id: 7, name: "x_offset", value: 40.0 },
-];
+function NumberInput(props) {
+  const { name, value } = props;
+  // const [inputValue, setValue] = React.useState(value);
+  // const minusOne = [
+  //   "LEFT_SHOULDER_PITCH",
+  //   "LEFT_SHOULDER_ROLL",
+  //   "LEFT_ELBOW",
+  //   "RIGHT_SHOULDER_PITCH",
+  //   "RIGHT_SHOULDER_ROLL",
+  //   "RIGHT_ELBOW",
+  // ];
 
-const balanceData = [
-  { id: 1, name: "balance_knee_gain", value: 0.3 },
-  { id: 2, name: "balance_ankle_pitch_gain", value: 0.3 },
-  { id: 3, name: "balance_hip_roll_gain", value: 0.2 },
-  { id: 4, name: "balance_ankle_roll_gain", value: 0.2 },
-];
+  // const addValue = (val) => {
+  //   setValue(inputValue + val);
+  // };
 
-const pidData = [
-  { id: 1, name: "p_gain", value: 10 },
-  { id: 2, name: "i_gain", value: 2 },
-  { id: 3, name: "d_gain", value: 3 },
-];
+  // const subtractValue = (val) => {
+  //   setValue(inputValue - val);
+  // };
 
-const odometryData = [
-  { id: 1, name: "ry_coefficient", value: 5.0 },
-  { id: 2, name: "fx_coefficient", value: 5.85 },
-  { id: 3, name: "ly_coefficient", value: 5.0 },
-];
-
-const kinematicData = [
-  { id: 1, name: "thigh_length", value: 199.0 },
-  { id: 2, name: "calf_length", value: 195.0 },
-  { id: 3, name: "ankle_length", value: 59.7 },
-  { id: 4, name: "leg_length", value: 394 },
-];
-
-function Walk() {
-  const classes = useStyles();
-  const ratio = ratioData;
-  const offset = offsetData;
-  const balance = balanceData;
-  const kinematic = kinematicData;
-  const odometry = odometryData;
-  const pid = pidData;
+  // const handleValueChange = (e) => {
+  //   setValue(e.target.inputValue);
+  // };
 
   return (
-    <div className={classes.root}>
-      <Card>
-        <Grid item xs={12} className={classes.title}>
-          <MuiTypography variant="h6">Walk Settings</MuiTypography>
-        </Grid>
-        <CardContent>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6}>
-              <MuiTypography variant="h6">Ratio</MuiTypography>
-              <div style={{ marginBottom: 10, height: 390, width: "100%" }}>
-                <DataGrid
-                  title="Ratio"
-                  rows={ratio}
-                  columns={columns}
-                  rowHeight={40}
-                  disableColumnMenu
-                  rowsPerPageOptions={[]}
-                />
-              </div>
-              <MuiTypography variant="h6">Balance</MuiTypography>
-              <div style={{ marginBottom: 10, height: 280, width: "100%" }}>
-                <DataGrid
-                  rows={balance}
-                  columns={columns}
-                  rowHeight={40}
-                  disableColumnMenu
-                  rowsPerPageOptions={[]}
-                />
-              </div>
-              <MuiTypography variant="h6">PID</MuiTypography>
-              <div style={{ marginBottom: 10, height: 230, width: "100%" }}>
-                <DataGrid
-                  rows={pid}
-                  columns={columns}
-                  rowHeight={40}
-                  disableColumnMenu
-                  rowsPerPageOptions={[]}
-                />
-              </div>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <MuiTypography variant="h6">Offset</MuiTypography>
-              <div style={{ marginBottom: 10, height: 390, width: "100%" }}>
-                <DataGrid
-                  rows={offset}
-                  columns={columns}
-                  rowHeight={40}
-                  disableColumnMenu
-                  rowsPerPageOptions={[]}
-                />
-              </div>
-              <MuiTypography variant="h6">Kinematic</MuiTypography>
-              <div style={{ marginBottom: 10, height: 280, width: "100%" }}>
-                <DataGrid
-                  rows={kinematic}
-                  columns={columns}
-                  rowHeight={40}
-                  disableColumnMenu
-                  rowsPerPageOptions={[]}
-                />
-              </div>
-              <MuiTypography variant="h6">Odometry</MuiTypography>
-              <div style={{ marginBottom: 10, height: 230, width: "100%" }}>
-                <DataGrid
-                  rows={odometry}
-                  columns={columns}
-                  rowHeight={40}
-                  disableColumnMenu
-                  rowsPerPageOptions={[]}
-                />
-              </div>
-            </Grid>
+    <React.Fragment>
+      <Item>
+        <Grid container spacing={1}>
+          <Grid item xs={6}>
+            <ItemTitle> {name} </ItemTitle>
           </Grid>
+          <Grid item xs={1}>
+            <IconButton>
+              <KeyboardDoubleArrowLeftIcon
+              // onClick={
+              //   name in minusOne
+              //     ? () => subtractValue(10)
+              //     : () => subtractValue(1)
+              // }
+              />
+            </IconButton>
+          </Grid>
+          <Grid item xs={1}>
+            <IconButton>
+              <KeyboardArrowLeft
+              // onClick={
+              //   name in minusOne
+              //     ? () => subtractValue(1)
+              //     : () => subtractValue(0.1)
+              // }
+              />
+            </IconButton>
+          </Grid>
+          <Grid item xs={1}>
+            <ItemTitle>{value}</ItemTitle>
+          </Grid>
+          <Grid item xs={1}>
+            <IconButton>
+              <KeyboardArrowRight
+              // onClick={name in minusOne ? () => addValue(1) : () => addValue(0.1)}
+              />
+            </IconButton>
+          </Grid>
+          <Grid item xs={1}>
+            <IconButton>
+              <KeyboardDoubleArrowRightIcon
+              // onClick={name in minusOne ? () => addValue(10) : () => addValue(1)}
+              />
+            </IconButton>
+          </Grid>
+        </Grid>
+      </Item>
+    </React.Fragment>
+  );
+}
+
+function WalkSettings() {
+  return (
+    <Box sx={{ flexGrow: 1 }}>
+      <Item>
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={6}>
+            <Item>
+              <Typography variant="h6" component="div" sx={{ padding: 1 }}>
+                Left Foot
+              </Typography>
+              <NumberInput name={"LEFT_SHOULDER_PITCH"} value={10} />
+              <NumberInput name={"LEFT_SHOULDER_ROLL"} value={10} />
+              <NumberInput name={"LEFT_ELBOW"} value={10} />
+              <NumberInput name={"LEFT_HIP_YAW"} value={10} />
+              <NumberInput name={"LEFT_HIP_ROLL"} value={10} />
+              <NumberInput name={"LEFT_HIP_PITCH"} value={10} />
+              <NumberInput name={"LEFT_KNEE"} value={10} />
+              <NumberInput name={"LEFT_ANKLE_ROLL"} value={10} />
+              <NumberInput name={"LEFT_ANKLE_PITCH"} value={10} />
+            </Item>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Item>
+              <Typography variant="h6" component="div" sx={{ padding: 1 }}>
+                Right Foot
+              </Typography>
+              <NumberInput name={"RIGHT_SHOULDER_PITCH"} value={10} />
+              <NumberInput name={"RIGHT_SHOULDER_ROLL"} value={10} />
+              <NumberInput name={"RIGHT_ELBOW"} value={10} />
+              <NumberInput name={"RIGHT_HIP_YAW"} value={10} />
+              <NumberInput name={"RIGHT_HIP_ROLL"} value={10} />
+              <NumberInput name={"RIGHT_HIP_PITCH"} value={10} />
+              <NumberInput name={"RIGHT_KNEE"} value={10} />
+              <NumberInput name={"RIGHT_ANKLE_ROLL"} value={10} />
+              <NumberInput name={"RIGHT_ANKLE_PITCH"} value={10} />
+            </Item>
+          </Grid>
+        </Grid>
+        <Grid container>
           <Button
-            variant="contained"
             color="primary"
-            className={classes.button}
+            variant="contained"
+            sx={{ margin: 1, top: 5, left: 30 }}
           >
             Save
           </Button>
           <Button
-            component={Link}
-            to="/"
+            color="warning"
             variant="contained"
-            color="secondary"
-            className={classes.button}
+            sx={{ margin: 1, top: 5, left: 30 }}
           >
             Reload
           </Button>
-        </CardContent>
-      </Card>
-    </div>
+        </Grid>
+      </Item>
+    </Box>
   );
 }
 
-export default Walk;
+export default WalkSettings;
