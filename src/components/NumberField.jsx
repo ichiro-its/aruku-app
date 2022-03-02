@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { styled } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
@@ -8,6 +8,8 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+
+import WalkContext from '../context/WalkContext';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -29,7 +31,10 @@ const ItemValue = styled(Typography)(({ theme }) => ({
   fontSize: '0.9rem',
 }));
 
-function NumberField({ name, value }) {
+function NumberField(props) {
+  const { name, value, type } = props;
+  const { setWalkValue, setInitValue } = useContext(WalkContext);
+
   return (
     <Item>
       <Grid container spacing={1}>
@@ -41,12 +46,12 @@ function NumberField({ name, value }) {
           </ItemTitle>
         </Grid>
         <Grid item xs={1}>
-          <IconButton>
+          <IconButton onClick={type === 'walk' ? () => setWalkValue(name, value - 10) : () => setInitValue(name, value - 10)}>
             <KeyboardDoubleArrowLeftIcon />
           </IconButton>
         </Grid>
         <Grid item xs={1}>
-          <IconButton>
+          <IconButton onClick={type === 'walk' ? () => setWalkValue(name, value - 1) : () => setInitValue(name, value - 1)}>
             <KeyboardArrowLeft />
           </IconButton>
         </Grid>
@@ -54,12 +59,12 @@ function NumberField({ name, value }) {
           <ItemValue>{value}</ItemValue>
         </Grid>
         <Grid item xs={1}>
-          <IconButton>
+          <IconButton onClick={type === 'walk' ? () => setWalkValue(name, value + 1) : () => setInitValue(name, value + 1)}>
             <KeyboardArrowRight />
           </IconButton>
         </Grid>
         <Grid item xs={1}>
-          <IconButton>
+          <IconButton onClick={type === 'walk' ? () => setWalkValue(name, value + 10) : () => setInitValue(name, value + 10)}>
             <KeyboardDoubleArrowRightIcon />
           </IconButton>
         </Grid>

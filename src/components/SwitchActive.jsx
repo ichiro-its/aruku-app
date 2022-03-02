@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Switch from '@mui/material/Switch';
 import Typography from '@mui/material/Typography';
+
+import WalkContext from '../context/WalkContext';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -24,6 +26,8 @@ const ItemValue = styled(Typography)(({ theme }) => ({
 }));
 
 function SwitchState({ name, value }) {
+  const { setWalkValue } = useContext(WalkContext);
+
   return (
     <Item>
       <Grid container spacing={1}>
@@ -38,7 +42,7 @@ function SwitchState({ name, value }) {
           <ItemValue> OFF </ItemValue>
         </Grid>
         <Grid item xs>
-          <Switch defaultChecked />
+          <Switch onChange={(event) => setWalkValue(name, event.target.checked)} checked={value} />
         </Grid>
         <Grid item xs>
           <ItemValue> ON </ItemValue>

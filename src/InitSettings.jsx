@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
@@ -7,6 +7,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
 import NumberField from './components/NumberField';
+import WalkContext from './context/WalkContext';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -17,26 +18,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 function InitSettings() {
-  const [config, setConfig] = useState({
-    LEFT_SHOULDER_PITCH: 5,
-    LEFT_SHOULDER_ROLL: 10,
-    LEFT_ELBOW: 50,
-    LEFT_HIP_YAW: 3,
-    LEFT_HIP_ROLL: -3,
-    LEFT_HIP_PITCH: 5,
-    LEFT_KNEE: 0,
-    LEFT_ANKLE_ROLL: -2,
-    LEFT_ANKLE_PITCH: 0,
-    RIGHT_SHOULDER_PITCH: 15,
-    RIGHT_SHOULDER_ROLL: 10,
-    RIGHT_ELBOW: 50,
-    RIGHT_HIP_YAW: 3,
-    RIGHT_HIP_ROLL: -3,
-    RIGHT_HIP_PITCH: 5,
-    RIGHT_KNEE: 0,
-    RIGHT_ANKLE_ROLL: -2,
-    RIGHT_ANKLE_PITCH: 0,
-  });
+  const { initConfig } = useContext(WalkContext);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -47,10 +29,10 @@ function InitSettings() {
               <Typography variant="h6" component="div" sx={{ padding: 1 }}>
                 Left Foot
               </Typography>
-              {Object.keys(config)
+              {Object.keys(initConfig)
                 .slice(0, 9)
                 .map((name) => (
-                  <NumberField name={name} value={config[name]} />
+                  <NumberField key={name} name={name} value={initConfig[name]} type="init" />
                 ))}
             </Item>
           </Grid>
@@ -59,10 +41,10 @@ function InitSettings() {
               <Typography variant="h6" component="div" sx={{ padding: 1 }}>
                 Right Foot
               </Typography>
-              {Object.keys(config)
+              {Object.keys(initConfig)
                 .slice(9, 18)
                 .map((name) => (
-                  <NumberField name={name} value={config[name]} />
+                  <NumberField key={name} name={name} value={initConfig[name]} type="init" />
                 ))}
             </Item>
           </Grid>

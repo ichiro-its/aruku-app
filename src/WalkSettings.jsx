@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
@@ -7,6 +7,7 @@ import Grid from '@mui/material/Grid';
 
 import NumberField from './components/NumberField';
 import SwitchActive from './components/SwitchActive';
+import WalkContext from './context/WalkContext';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -16,41 +17,8 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-function InitSettings() {
-  const [config, setConfig] = useState({
-    START: true,
-    X: 100.0,
-    Y: 0.0,
-    A: 5.0,
-    AIM: false,
-    BALANCE_KNEE_GAIN: 0.3,
-    BALANCE_ANKLE_PITCH_GAIN: 0.3,
-    BALANCE_HIP_ROLL_GAIN: 0.2,
-    BALANCE_ANKLE_ROLL_GAIN: 0.2,
-    PERIOD_TIME: 810.0,
-    DSP_RATIO: -0.12,
-    FOOT_HEIGHT: 30.0,
-    SWING_RIGHT_LEFT: 15.0,
-    SWING_UP_DOWN: -1.0,
-    ARM_SWING_GAIN: 0.2,
-    BACKWARD_HIP_COMP_RATIO: 0.0,
-    FORWARD_HIP_COMP_RATIO: 0.0,
-    FOOT_COMP_RATIO: 0.0,
-    DSP_COMP_RATIO: 0.0,
-    MOVE_ACCEL_RATIO: 1.0,
-    FOOT_ACCEL_RATIO: 0.2,
-    PERIOD_COMP_RATIO: 0.0,
-    X_OFFSET: 40.0,
-    Y_OFFSET: 0.0,
-    Z_OFFSET: 25.0,
-    ROLL_OFFSET: 1.0,
-    PITCH_OFFSET: -0.4,
-    YAW_OFFSET: 0.1,
-    HIP_PITCH_OFFSET: 23.0,
-    P_GAIN: 10,
-    I_GAIN: 2,
-    D_GAIN: 3,
-  });
+function WalkSettings() {
+  const { walkConfig } = useContext(WalkContext);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -58,31 +26,31 @@ function InitSettings() {
         <Grid container spacing={1}>
           <Grid item xs={12} md={6} lg={4}>
             <Item>
-              {Object.keys(config)
+              {Object.keys(walkConfig)
                 .slice(0, 11)
                 .map((name) => {
-                  if (typeof config[name] === 'boolean') {
-                    return <SwitchActive name={name} value={config[name]} />;
+                  if (typeof walkConfig[name] === 'boolean') {
+                    return <SwitchActive key={name} name={name} value={walkConfig[name]} />;
                   }
-                  return <NumberField name={name} value={config[name]} />;
+                  return <NumberField key={name} name={name} value={walkConfig[name]} type="walk" />;
                 })}
             </Item>
           </Grid>
           <Grid item xs={12} md={6} lg={4}>
             <Item>
-              {Object.keys(config)
+              {Object.keys(walkConfig)
                 .slice(11, 22)
                 .map((name) => (
-                  <NumberField name={name} value={config[name]} />
+                  <NumberField key={name} name={name} value={walkConfig[name]} type="walk" />
                 ))}
             </Item>
           </Grid>
           <Grid item xs={12} md={6} lg={4}>
             <Item>
-              {Object.keys(config)
+              {Object.keys(walkConfig)
                 .slice(22, 32)
                 .map((name) => (
-                  <NumberField name={name} value={config[name]} />
+                  <NumberField key={name} name={name} value={walkConfig[name]} type="walk" />
                 ))}
             </Item>
           </Grid>
@@ -108,4 +76,4 @@ function InitSettings() {
   );
 }
 
-export default InitSettings;
+export default WalkSettings;
