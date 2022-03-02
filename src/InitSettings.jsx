@@ -1,25 +1,24 @@
-import React from "react";
-import { useState } from "react";
-import { styled } from "@mui/material/styles";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
+import React, { useState } from 'react';
+import { styled } from '@mui/material/styles';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 
-import NumberField from "./components/NumberField";
+import NumberField from './components/NumberField';
 
 const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
   padding: theme.spacing(1),
-  textAlign: "center",
+  textAlign: 'center',
   color: theme.palette.text.secondary,
 }));
 
 function InitSettings() {
   const [config, setConfig] = useState({
-    LEFT_SHOULDER_PITCH: true,
+    LEFT_SHOULDER_PITCH: 5,
     LEFT_SHOULDER_ROLL: 10,
     LEFT_ELBOW: 50,
     LEFT_HIP_YAW: 3,

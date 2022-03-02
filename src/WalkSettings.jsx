@@ -1,20 +1,18 @@
-import React from "react";
-import { useState } from "react";
-import { styled } from "@mui/material/styles";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
+import React, { useState } from 'react';
+import { styled } from '@mui/material/styles';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
 
-import NumberField from "./components/NumberField";
-import SwitchActive from "./components/SwitchActive";
+import NumberField from './components/NumberField';
+import SwitchActive from './components/SwitchActive';
 
 const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
   padding: theme.spacing(1),
-  textAlign: "center",
+  textAlign: 'center',
   color: theme.palette.text.secondary,
 }));
 
@@ -30,9 +28,6 @@ function InitSettings() {
     BALANCE_HIP_ROLL_GAIN: 0.2,
     BALANCE_ANKLE_ROLL_GAIN: 0.2,
     PERIOD_TIME: 810.0,
-    CALF_LENGTH: 195.0,
-    ANKLE_LENGTH: 59.7,
-    LEG_LENGTH: 394,
     DSP_RATIO: -0.12,
     FOOT_HEIGHT: 30.0,
     SWING_RIGHT_LEFT: 15.0,
@@ -45,7 +40,6 @@ function InitSettings() {
     MOVE_ACCEL_RATIO: 1.0,
     FOOT_ACCEL_RATIO: 0.2,
     PERIOD_COMP_RATIO: 0.0,
-    THIGH_LENGTH: 199.0,
     X_OFFSET: 40.0,
     Y_OFFSET: 0.0,
     Z_OFFSET: 25.0,
@@ -56,38 +50,28 @@ function InitSettings() {
     P_GAIN: 10,
     I_GAIN: 2,
     D_GAIN: 3,
-    RY_COEFFICIENT: 5.0,
-    FX_COEFFICIENT: 5.85,
-    LY_COEFFICIENT: 5.0,
   });
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Item>
-        <Grid container spacing={2}>
+        <Grid container spacing={1}>
           <Grid item xs={12} md={6} lg={4}>
             <Item>
-              <Typography variant="h6" component="div" sx={{ padding: 1 }}>
-                Left Foot
-              </Typography>
               {Object.keys(config)
-                .slice(0, 13)
+                .slice(0, 11)
                 .map((name) => {
-                  if (typeof config[name] === "boolean") {
+                  if (typeof config[name] === 'boolean') {
                     return <SwitchActive name={name} value={config[name]} />;
-                  } else {
-                    return <NumberField name={name} value={config[name]} />;
                   }
+                  return <NumberField name={name} value={config[name]} />;
                 })}
             </Item>
           </Grid>
           <Grid item xs={12} md={6} lg={4}>
             <Item>
-              <Typography variant="h6" component="div" sx={{ padding: 1 }}>
-                Right Foot
-              </Typography>
               {Object.keys(config)
-                .slice(13, 26)
+                .slice(11, 22)
                 .map((name) => (
                   <NumberField name={name} value={config[name]} />
                 ))}
@@ -95,11 +79,8 @@ function InitSettings() {
           </Grid>
           <Grid item xs={12} md={6} lg={4}>
             <Item>
-              <Typography variant="h6" component="div" sx={{ padding: 1 }}>
-                Right Foot
-              </Typography>
               {Object.keys(config)
-                .slice(26, 39)
+                .slice(22, 32)
                 .map((name) => (
                   <NumberField name={name} value={config[name]} />
                 ))}
