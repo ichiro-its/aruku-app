@@ -80,7 +80,7 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Walk />} />
-          <Route path="/Init" element={<Init />} />
+          <Route path="/init" element={<Init />} />
         </Routes>
       </Router>
     </WalkContext.Provider>

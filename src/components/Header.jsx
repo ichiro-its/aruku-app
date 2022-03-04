@@ -26,7 +26,7 @@ function Header() {
           </Button>
           <Button
             component={NavLink}
-            to="/Init"
+            to="/init"
             style={({ isActive }) => ({
               fontWeight: isActive ? 900 : 'normal',
             })}
