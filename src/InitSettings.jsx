@@ -1,131 +1,73 @@
-/* eslint no-unused-vars: ["error", { "args": "none" }] */
-import React from "react";
-import { Link } from "react-router-dom";
-import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import Grid from "@material-ui/core/Grid";
-import MuiTypography from "@material-ui/core/Typography";
-import { DataGrid } from "@material-ui/data-grid";
-import { makeStyles } from "@material-ui/core/styles";
+import React, { useContext } from 'react';
+import { styled } from '@mui/material/styles';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  button: {
-    margin: "10px",
-  },
-  table: {
-    marginBottom: "10px",
-  },
-  title: {
-    padding: theme.spacing(2),
-    textAlign: "center",
-  },
+import NumberField from './components/NumberField';
+import WalkContext from './context/WalkContext';
+
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
 }));
 
-const columns = [
-  {
-    field: "id",
-    headerName: "#",
-    width: 15,
-    editable: true,
-    sortable: false,
-  },
-  { field: "name", headerName: "Name", width: 300, sortable: false },
-  {
-    field: "value",
-    headerName: "Value",
-    width: 150,
-    type: "number",
-    editable: true,
-    sortable: false,
-  },
-];
-
-const leftData = [
-  { id: 1, name: "left_shoulder_pitch", value: 15 },
-  { id: 2, name: "left_shoulder_roll", value: -10 },
-  { id: 3, name: "left_elbow", value: 50 },
-  { id: 4, name: "left_hip_yaw", value: 3 },
-  { id: 5, name: "left_hip_roll", value: -3 },
-  { id: 6, name: "left_hip_pitch", value: 5 },
-  { id: 7, name: "left_knee", value: 0 },
-  { id: 8, name: "left_ankle_roll", value: -2 },
-  { id: 9, name: "left_ankle_pitch", value: 0 },
-];
-
-const rightData = [
-  { id: 1, name: "right_shoulder_pitch", value: 15 },
-  { id: 2, name: "right_shoulder_roll", value: -10 },
-  { id: 3, name: "right_elbow", value: 50 },
-  { id: 4, name: "right_hip_yaw", value: -3 },
-  { id: 5, name: "right_hip_roll", value: 3 },
-  { id: 6, name: "right_hip_pitch", value: 5 },
-  { id: 7, name: "right_knee", value: 0 },
-  { id: 8, name: "right_ankle_roll", value: 2 },
-  { id: 9, name: "right_ankle_pitch", value: 0 },
-];
-
-function Init() {
-  const classes = useStyles();
+function InitSettings() {
+  const { initConfig } = useContext(WalkContext);
 
   return (
-    <div className={classes.root}>
-      <Card>
-        <Grid item xs={12}>
-          <MuiTypography variant="h6" className={classes.title}>
-            Init Settings
-          </MuiTypography>
-        </Grid>
-        <CardContent>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6}>
-              <MuiTypography variant="h6">Left Foot</MuiTypography>
-              <div style={{ marginBottom: 10, height: 470, width: "100%" }}>
-                <DataGrid
-                  rows={leftData}
-                  columns={columns}
-                  rowHeight={40}
-                  disableColumnMenu
-                  rowsPerPageOptions={[]}
-                />
-              </div>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <MuiTypography variant="h6">Right Foot</MuiTypography>
-              <div style={{ marginBottom: 10, height: 470, width: "100%" }}>
-                <DataGrid
-                  rows={rightData}
-                  columns={columns}
-                  rowHeight={40}
-                  disableColumnMenu
-                  rowsPerPageOptions={[]}
-                />
-              </div>
-            </Grid>
+    <Box sx={{ flexGrow: 1 }}>
+      <Item>
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={6}>
+            <Item>
+              <Typography variant="h6" component="div" sx={{ padding: 1 }}>
+                Left Foot
+              </Typography>
+              {Object.keys(initConfig)
+                .slice(0, 9)
+                .map((name) => (
+                  <NumberField key={name} name={name} value={initConfig[name]} type="init" />
+                ))}
+            </Item>
           </Grid>
+          <Grid item xs={12} md={6}>
+            <Item>
+              <Typography variant="h6" component="div" sx={{ padding: 1 }}>
+                Right Foot
+              </Typography>
+              {Object.keys(initConfig)
+                .slice(9, 18)
+                .map((name) => (
+                  <NumberField key={name} name={name} value={initConfig[name]} type="init" />
+                ))}
+            </Item>
+          </Grid>
+        </Grid>
+        <Grid container>
           <Button
-            variant="contained"
             color="primary"
-            className={classes.button}
+            variant="contained"
+            sx={{ margin: 1, top: 5, left: 30 }}
           >
             Save
           </Button>
           <Button
-            component={Link}
-            to="/Init"
+            color="warning"
             variant="contained"
-            color="secondary"
-            className={classes.button}
+            sx={{ margin: 1, top: 5, left: 30 }}
           >
             Reload
           </Button>
-        </CardContent>
-      </Card>
-    </div>
+        </Grid>
+      </Item>
+    </Box>
   );
 }
 
-export default Init;
+export default InitSettings;

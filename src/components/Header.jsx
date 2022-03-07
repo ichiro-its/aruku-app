@@ -1,40 +1,42 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  title: {
-    flexGrow: 1,
-    margin: theme.spacing(1),
-  },
-}));
+import React from 'react';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import { Button } from '@mui/material';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import { NavLink } from 'react-router-dom';
 
 function Header() {
-  const classes = useStyles();
-
   return (
-    <div className={classes.root}>
+    <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <Typography variant="h5" className={classes.title}>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Aruku App
           </Typography>
-          <Button component={Link} to="/" color="inherit">
+          <Button
+            component={NavLink}
+            to="/"
+            style={({ isActive }) => ({
+              fontWeight: isActive ? 900 : 'normal',
+            })}
+            color="inherit"
+          >
             Walk Settings
           </Button>
-          <Button component={Link} to="/Init" color="inherit">
+          <Button
+            component={NavLink}
+            to="/init"
+            style={({ isActive }) => ({
+              fontWeight: isActive ? 900 : 'normal',
+            })}
+            color="inherit"
+          >
             Init Settings
           </Button>
         </Toolbar>
       </AppBar>
-    </div>
+    </Box>
   );
 }
 
