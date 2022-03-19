@@ -33,7 +33,17 @@ const ItemValue = styled(Typography)(({ theme }) => ({
 
 function NumberField(props) {
   const { name, value, type } = props;
-  const { setWalkValue, setInitValue } = useContext(WalkContext);
+  const { setMainValue, setWalkValue, setInitValue } = useContext(WalkContext);
+
+  function setValue(val) {
+    if (type === 'main') {
+      setMainValue(name, value + val);
+    } else if (type === 'walk') {
+      setWalkValue(name, value + val);
+    } else if (type === 'init') {
+      setInitValue(name, value + val);
+    }
+  }
 
   return (
     <Item>
@@ -41,17 +51,17 @@ function NumberField(props) {
         <Grid item xs={6}>
           <ItemTitle>
             {' '}
-            {name}
+            {name.toUpperCase()}
             {' '}
           </ItemTitle>
         </Grid>
         <Grid item xs={1}>
-          <IconButton onClick={type === 'walk' ? () => setWalkValue(name, value - 10) : () => setInitValue(name, value - 10)}>
+          <IconButton onClick={() => setValue(-10)}>
             <KeyboardDoubleArrowLeftIcon />
           </IconButton>
         </Grid>
         <Grid item xs={1}>
-          <IconButton onClick={type === 'walk' ? () => setWalkValue(name, value - 1) : () => setInitValue(name, value - 1)}>
+          <IconButton onClick={() => setValue(-1)}>
             <KeyboardArrowLeft />
           </IconButton>
         </Grid>
@@ -59,12 +69,12 @@ function NumberField(props) {
           <ItemValue>{value}</ItemValue>
         </Grid>
         <Grid item xs={1}>
-          <IconButton onClick={type === 'walk' ? () => setWalkValue(name, value + 1) : () => setInitValue(name, value + 1)}>
+          <IconButton onClick={() => setValue(1)}>
             <KeyboardArrowRight />
           </IconButton>
         </Grid>
         <Grid item xs={1}>
-          <IconButton onClick={type === 'walk' ? () => setWalkValue(name, value + 10) : () => setInitValue(name, value + 10)}>
+          <IconButton onClick={() => setValue(10)}>
             <KeyboardDoubleArrowRightIcon />
           </IconButton>
         </Grid>
