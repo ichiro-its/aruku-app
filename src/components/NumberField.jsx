@@ -32,16 +32,19 @@ const ItemValue = styled(Typography)(({ theme }) => ({
 }));
 
 function NumberField(props) {
-  const { name, value, type } = props;
-  const { setMainValue, setWalkValue, setInitValue } = useContext(WalkContext);
+  const {
+    name,
+    keys,
+    value,
+    type,
+  } = props;
+  const { setMainValue, setConfigValue } = useContext(WalkContext);
 
   function setValue(val) {
     if (type === 'main') {
-      setMainValue(name, value + val);
-    } else if (type === 'walk') {
-      setWalkValue(name, value + val);
-    } else if (type === 'init') {
-      setInitValue(name, value + val);
+      setMainValue(keys, value + val);
+    } else {
+      setConfigValue(name, keys, value + val);
     }
   }
 
@@ -50,9 +53,7 @@ function NumberField(props) {
       <Grid container spacing={1}>
         <Grid item xs={6}>
           <ItemTitle>
-            {' '}
-            {name.toUpperCase()}
-            {' '}
+            {keys.toUpperCase()}
           </ItemTitle>
         </Grid>
         <Grid item xs={1}>

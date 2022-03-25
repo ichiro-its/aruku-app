@@ -18,7 +18,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 function InitSettings() {
-  const { initConfig } = useContext(WalkContext);
+  const { config } = useContext(WalkContext);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -29,11 +29,12 @@ function InitSettings() {
               <Typography variant="h6" component="div" sx={{ padding: 1 }}>
                 Left Foot
               </Typography>
-              {Object.keys(initConfig)
-                .slice(0, 9)
-                .map((name) => (
-                  <NumberField key={name} name={name} value={initConfig[name]} type="init" />
-                ))}
+              {Object.keys(config)
+                .slice(6, 7)
+                .map((name) => Object.keys(config[name]).slice(0, 3).map((key) => <NumberField key={key} name={name} keys={key} value={config[name][key]} type="init" />))}
+              {Object.keys(config)
+                .slice(6, 7)
+                .map((name) => Object.keys(config[name]).slice(6, 12).map((key) => <NumberField key={key} name={name} keys={key} value={config[name][key]} type="init" />))}
             </Item>
           </Grid>
           <Grid item xs={12} md={6}>
@@ -41,11 +42,12 @@ function InitSettings() {
               <Typography variant="h6" component="div" sx={{ padding: 1 }}>
                 Right Foot
               </Typography>
-              {Object.keys(initConfig)
-                .slice(9, 18)
-                .map((name) => (
-                  <NumberField key={name} name={name} value={initConfig[name]} type="init" />
-                ))}
+              {Object.keys(config)
+                .slice(6, 7)
+                .map((name) => Object.keys(config[name]).slice(3, 6).map((key) => <NumberField key={key} name={name} keys={key} value={config[name][key]} type="init" />))}
+              {Object.keys(config)
+                .slice(6, 7)
+                .map((name) => Object.keys(config[name]).slice(12, 18).map((key) => <NumberField key={key} name={name} keys={key} value={config[name][key]} type="init" />))}
             </Item>
           </Grid>
         </Grid>

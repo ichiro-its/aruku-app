@@ -25,8 +25,8 @@ const ItemValue = styled(Typography)(({ theme }) => ({
   padding: theme.spacing(1),
 }));
 
-function SwitchState({ name, value, type }) {
-  const { setMainValue, setWalkValue } = useContext(WalkContext);
+function SwitchState({ name, value }) {
+  const { setMainValue } = useContext(WalkContext);
 
   return (
     <Item>
@@ -43,8 +43,7 @@ function SwitchState({ name, value, type }) {
         </Grid>
         <Grid item xs>
           <Switch
-            onChange={type === 'main' ? (event) => setMainValue(name, event.target.checked)
-              : (event) => setWalkValue(name, event.target.checked)}
+            onChange={(event) => setMainValue(name, event.target.checked)}
             checked={value}
           />
         </Grid>

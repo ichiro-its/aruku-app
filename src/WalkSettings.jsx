@@ -5,7 +5,6 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 
-// import GetConfig from './components/GetConfig';
 import NumberField from './components/NumberField';
 import SwitchActive from './components/SwitchActive';
 import WalkContext from './context/WalkContext';
@@ -19,7 +18,8 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 function WalkSettings() {
-  const { walking, walkConfig } = useContext(WalkContext);
+  // const { walking, walkConfig } = useContext(WalkContext);
+  const { walking, config } = useContext(WalkContext);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -30,36 +30,36 @@ function WalkSettings() {
               {Object.keys(walking)
                 .map((name) => {
                   if (typeof walking[name] === 'boolean') {
-                    return <SwitchActive key={name} name={name} value={walking[name]} type="main" />;
+                    return <SwitchActive key={name} name={name} value={walking[name]} />;
                   }
-                  return <NumberField key={name} name={name} value={walking[name]} type="main" />;
+                  return <NumberField key={name} keys={name} value={walking[name]} type="main" />;
                 })}
-              {Object.keys(walkConfig)
-                .slice(0, 5)
-                .map((name) => {
-                  if (typeof walkConfig[name] === 'boolean') {
-                    return <SwitchActive key={name} name={name} value={walkConfig[name]} type="walk" />;
-                  }
-                  return <NumberField key={name} name={name} value={walkConfig[name]} type="walk" />;
-                })}
+              {Object.keys(config)
+                .slice(2, 3)
+                .map((name) => Object.keys(config[name]).map((key) => <NumberField key={key} name={name} keys={key} value={config[name][key]} type="walk" />))}
+              {Object.keys(config)
+                .slice(4, 5)
+                .map((name) => Object.keys(config[name]).map((key) => <NumberField key={key} name={name} keys={key} value={config[name][key]} type="walk" />))}
             </Item>
           </Grid>
           <Grid item xs={12} md={6} lg={4}>
             <Item>
-              {Object.keys(walkConfig)
-                .slice(5, 15)
-                .map((name) => (
-                  <NumberField key={name} name={name} value={walkConfig[name]} type="walk" />
-                ))}
+              {Object.keys(config)
+                .slice(0, 1)
+                .map((name) => Object.keys(config[name]).slice(0, 12).map((key) => <NumberField key={key} name={name} keys={key} value={config[name][key]} type="walk" />))}
             </Item>
           </Grid>
           <Grid item xs={12} md={6} lg={4}>
             <Item>
-              {Object.keys(walkConfig)
-                .slice(15, 25)
-                .map((name) => (
-                  <NumberField key={name} name={name} value={walkConfig[name]} type="walk" />
-                ))}
+              {Object.keys(config)
+                .slice(0, 1)
+                .map((name) => Object.keys(config[name]).slice(12, 13).map((key) => <NumberField key={key} name={name} keys={key} value={config[name][key]} type="walk" />))}
+              {Object.keys(config)
+                .slice(1, 2)
+                .map((name) => Object.keys(config[name]).map((key) => <NumberField key={key} name={name} keys={key} value={config[name][key]} type="walk" />))}
+              {Object.keys(config)
+                .slice(3, 4)
+                .map((name) => Object.keys(config[name]).map((key) => <NumberField key={key} name={name} keys={key} value={config[name][key]} type="walk" />))}
             </Item>
           </Grid>
         </Grid>
@@ -72,7 +72,6 @@ function WalkSettings() {
             Save
           </Button>
           <Button
-            // onClick={handleCall}
             color="warning"
             variant="contained"
             sx={{ margin: 1, top: 5, left: 30 }}
