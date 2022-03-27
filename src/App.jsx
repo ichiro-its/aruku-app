@@ -10,10 +10,10 @@ import WalkContext from './context/WalkContext';
 
 function App() {
   const [main, setMain] = useState({
-    Start: true,
-    X: 0.0,
-    Y: 0.0,
-    A: 5.0,
+    start: true,
+    x: 0.0,
+    y: 0.0,
+    a: 5.0,
     aim: false,
   });
 
@@ -85,9 +85,9 @@ function App() {
 
   // const [publishingWalkConfig, handlePublishWalkConfig] = useHandleProcess(() => {
   //   const run = walking.start;
-  //   const x_move = walking.X;
-  //   const y_move = walking.Y;
-  //   const z_move = walking.Z;
+  //   const x_move = walking.x;
+  //   const y_move = walking.y;
+  //   const z_move = walking.z;
   //   const aim_on = walking.aim;
   //   return walkConfigPublisher
   //     .publish({
