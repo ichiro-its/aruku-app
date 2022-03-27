@@ -38,13 +38,15 @@ function NumberField(props) {
     value,
     type,
   } = props;
-  const { setMainValue, setConfigValue } = useContext(WalkContext);
+  const { setMainValue, setWalkingValue, setKinematicValue } = useContext(WalkContext);
 
   function setValue(val) {
     if (type === 'main') {
       setMainValue(keys, value + val);
+    } else if (type === 'walking') {
+      setWalkingValue(name, keys, value + val);
     } else {
-      setConfigValue(name, keys, value + val);
+      setKinematicValue(name, keys, value + val);
     }
   }
 

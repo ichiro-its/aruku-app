@@ -18,7 +18,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 function InitSettings() {
-  const { config } = useContext(WalkContext);
+  const { walking } = useContext(WalkContext);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -29,12 +29,16 @@ function InitSettings() {
               <Typography variant="h6" component="div" sx={{ padding: 1 }}>
                 Left Foot
               </Typography>
-              {Object.keys(config)
-                .slice(6, 7)
-                .map((name) => Object.keys(config[name]).slice(0, 3).map((key) => <NumberField key={key} name={name} keys={key} value={config[name][key]} type="init" />))}
-              {Object.keys(config)
-                .slice(6, 7)
-                .map((name) => Object.keys(config[name]).slice(6, 12).map((key) => <NumberField key={key} name={name} keys={key} value={config[name][key]} type="init" />))}
+              {Object.keys(walking)
+                .slice(2, 3)
+                .map((name) => Object.keys(walking[name])
+                  .slice(0, 3)
+                  .map((key) => <NumberField key={key} name={name} keys={key} value={walking[name][key]} type="walking" />))}
+              {Object.keys(walking)
+                .slice(2, 3)
+                .map((name) => Object.keys(walking[name])
+                  .slice(6, 12)
+                  .map((key) => <NumberField key={key} name={name} keys={key} value={walking[name][key]} type="walking" />))}
             </Item>
           </Grid>
           <Grid item xs={12} md={6}>
@@ -42,12 +46,16 @@ function InitSettings() {
               <Typography variant="h6" component="div" sx={{ padding: 1 }}>
                 Right Foot
               </Typography>
-              {Object.keys(config)
-                .slice(6, 7)
-                .map((name) => Object.keys(config[name]).slice(3, 6).map((key) => <NumberField key={key} name={name} keys={key} value={config[name][key]} type="init" />))}
-              {Object.keys(config)
-                .slice(6, 7)
-                .map((name) => Object.keys(config[name]).slice(12, 18).map((key) => <NumberField key={key} name={name} keys={key} value={config[name][key]} type="init" />))}
+              {Object.keys(walking)
+                .slice(2, 3)
+                .map((name) => Object.keys(walking[name])
+                  .slice(3, 6)
+                  .map((key) => <NumberField key={key} name={name} keys={key} value={walking[name][key]} type="walking" />))}
+              {Object.keys(walking)
+                .slice(2, 3)
+                .map((name) => Object.keys(walking[name])
+                  .slice(12, 18)
+                  .map((key) => <NumberField key={key} name={name} keys={key} value={walking[name][key]} type="walking" />))}
             </Item>
           </Grid>
         </Grid>

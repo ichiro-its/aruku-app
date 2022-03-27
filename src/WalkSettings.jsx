@@ -18,8 +18,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 function WalkSettings() {
-  // const { walking, walkConfig } = useContext(WalkContext);
-  const { walking, config } = useContext(WalkContext);
+  const { main, walking, kinematic } = useContext(WalkContext);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -27,39 +26,52 @@ function WalkSettings() {
         <Grid container spacing={1}>
           <Grid item xs={12} md={6} lg={4}>
             <Item>
-              {Object.keys(walking)
+              {Object.keys(main)
                 .map((name) => {
-                  if (typeof walking[name] === 'boolean') {
-                    return <SwitchActive key={name} name={name} value={walking[name]} />;
+                  if (typeof main[name] === 'boolean') {
+                    return <SwitchActive key={name} name={name} value={main[name]} type="main" />;
                   }
-                  return <NumberField key={name} keys={name} value={walking[name]} type="main" />;
+                  return <NumberField key={name} keys={name} value={main[name]} type="main" />;
                 })}
-              {Object.keys(config)
-                .slice(2, 3)
-                .map((name) => Object.keys(config[name]).map((key) => <NumberField key={key} name={name} keys={key} value={config[name][key]} type="walk" />))}
-              {Object.keys(config)
-                .slice(4, 5)
-                .map((name) => Object.keys(config[name]).map((key) => <NumberField key={key} name={name} keys={key} value={config[name][key]} type="walk" />))}
+              {Object.keys(walking)
+                .slice(0, 1)
+                .map((name) => Object.keys(walking[name]).map((key) => {
+                  if (typeof walking[name][key] === 'boolean') {
+                    return <SwitchActive key={key} name={key} value={walking[name][key]} type="walking" />;
+                  }
+                  return <NumberField key={key} name={name} keys={key} value={walking[name][key]} type="walking" />;
+                }))}
+              {Object.keys(kinematic)
+                .slice(0, 1)
+                .map((name) => Object.keys(kinematic[name])
+                  .slice(0, 1)
+                  .map((key) => <NumberField key={key} name={name} keys={key} value={kinematic[name][key]} type="kinematic" />))}
             </Item>
           </Grid>
           <Grid item xs={12} md={6} lg={4}>
             <Item>
-              {Object.keys(config)
+              {Object.keys(kinematic)
                 .slice(0, 1)
-                .map((name) => Object.keys(config[name]).slice(0, 12).map((key) => <NumberField key={key} name={name} keys={key} value={config[name][key]} type="walk" />))}
+                .map((name) => Object.keys(kinematic[name])
+                  .slice(1, 12)
+                  .map((key) => <NumberField key={key} name={name} keys={key} value={kinematic[name][key]} type="kinematic" />))}
             </Item>
           </Grid>
           <Grid item xs={12} md={6} lg={4}>
             <Item>
-              {Object.keys(config)
+              {Object.keys(kinematic)
                 .slice(0, 1)
-                .map((name) => Object.keys(config[name]).slice(12, 13).map((key) => <NumberField key={key} name={name} keys={key} value={config[name][key]} type="walk" />))}
-              {Object.keys(config)
+                .map((name) => Object.keys(kinematic[name])
+                  .slice(12, 13)
+                  .map((key) => <NumberField key={key} name={name} keys={key} value={kinematic[name][key]} type="kinematic" />))}
+              {Object.keys(kinematic)
                 .slice(1, 2)
-                .map((name) => Object.keys(config[name]).map((key) => <NumberField key={key} name={name} keys={key} value={config[name][key]} type="walk" />))}
-              {Object.keys(config)
-                .slice(3, 4)
-                .map((name) => Object.keys(config[name]).map((key) => <NumberField key={key} name={name} keys={key} value={config[name][key]} type="walk" />))}
+                .map((name) => Object.keys(kinematic[name])
+                  .map((key) => <NumberField key={key} name={name} keys={key} value={kinematic[name][key]} type="kinematic" />))}
+              {Object.keys(walking)
+                .slice(1, 2)
+                .map((name) => Object.keys(walking[name])
+                  .map((key) => <NumberField key={key} name={name} keys={key} value={walking[name][key]} type="walking" />))}
             </Item>
           </Grid>
         </Grid>

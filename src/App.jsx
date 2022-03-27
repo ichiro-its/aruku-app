@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { useHandleProcess, useLogger, usePublisher } from 'kumo-app';
+// import { useHandleProcess, useLogger, usePublisher } from 'kumo-app';
 import Header from './components/Header';
 
 import Walk from './WalkSettings';
@@ -9,7 +9,7 @@ import Init from './InitSettings';
 import WalkContext from './context/WalkContext';
 
 function App() {
-  const [walking, setWalking] = useState({
+  const [main, setMain] = useState({
     Start: true,
     X: 0.0,
     Y: 0.0,
@@ -17,8 +17,8 @@ function App() {
     aim: false,
   });
 
-  const [config, setConfig] = useState({
-    Ratio: {
+  const [kinematic, setKinematic] = useState({
+    ratio: {
       forward_hip_comp_ratio: 0.0,
       dsp_comp_ratio: 0.0,
       period_time: 810.0,
@@ -33,7 +33,7 @@ function App() {
       move_accel_ratio: 1.0,
       foot_accel_ratio: 0.2,
     },
-    Offset: {
+    offset: {
       y_offset: 0.0,
       roll_offset: 1.0,
       hip_pitch_offset: 23.0,
@@ -42,29 +42,22 @@ function App() {
       z_offset: 25.0,
       x_offset: 40.0,
     },
-    Balance: {
+  });
+
+  const [walking, setWalking] = useState({
+    balance: {
+      enable: false,
       balance_knee_gain: 0.3,
       balance_ankle_pitch_gain: 0.3,
       balance_hip_roll_gain: 0.2,
       balance_ankle_roll_gain: 0.2,
     },
-    PID: {
-      p_gain: 10,
-      i_gain: 2,
-      d_gain: 3,
-    },
-    Odometry: {
+    odometry: {
       ry_coefficient: 5.0,
       fx_coefficient: 5.85,
       ly_coefficient: 5.0,
     },
-    Kinematic: {
-      thigh_length: 199.0,
-      calf_length: 195.0,
-      ankle_length: 59.7,
-      leg_length: 394,
-    },
-    InitAngles: {
+    init_angles: {
       left_shoulder_pitch: 15,
       left_shoulder_roll: -10,
       left_elbow: 50,
@@ -86,60 +79,65 @@ function App() {
     },
   });
 
-  const configPublisher = usePublisher();
-  const walkConfigPublisher = usePublisher();
-  const logger = useLogger();
+  // const configPublisher = usePublisher();
+  // const walkConfigPublisher = usePublisher();
+  // const logger = useLogger();
 
-  const [publishingWalkConfig, handlePublishWalkConfig] = useHandleProcess(() => {
-    const run = walking.start;
-    const x_move = walking.X;
-    const y_move = walking.Y;
-    const z_move = walking.Z;
-    const aim_on = walking.aim;
-    return walkConfigPublisher
-      .publish({
-        run, x_move, y_move, z_move, aim_on,
-      })
-      .then(() => {
-        logger.success('Successfully publish set joints.');
-      })
-      .catch((err) => {
-        logger.error(`Failed to publish set joints data! ${err.message}.`);
-      });
-  }, 500);
+  // const [publishingWalkConfig, handlePublishWalkConfig] = useHandleProcess(() => {
+  //   const run = walking.start;
+  //   const x_move = walking.X;
+  //   const y_move = walking.Y;
+  //   const z_move = walking.Z;
+  //   const aim_on = walking.aim;
+  //   return walkConfigPublisher
+  //     .publish({
+  //       run, x_move, y_move, z_move, aim_on,
+  //     })
+  //     .then(() => {
+  //       logger.success('Successfully publish set joints.');
+  //     })
+  //     .catch((err) => {
+  //       logger.error(`Failed to publish set joints data! ${err.message}.`);
+  //     });
+  // }, 500);
 
-  const [publishingConfig, handlePublishConfig] = useHandleProcess(
-    (name, key, value) => configPublisher
-      .publish({
-        name, key, value,
-      })
-      .then(() => {
-        logger.success('Successfully publish set joints.');
-      })
-      .catch((err) => {
-        logger.error(`Failed to publish set joints data! ${err.message}.`);
-      }),
-    500,
-  );
+  // const [publishingConfig, handlePublishConfig] = useHandleProcess(
+  //   (name, key, value) => configPublisher
+  //     .publish({
+  //       name, key, value,
+  //     })
+  //     .then(() => {
+  //       logger.success('Successfully publish set joints.');
+  //     })
+  //     .catch((err) => {
+  //       logger.error(`Failed to publish set joints data! ${err.message}.`);
+  //     }),
+  //   500,
+  // );
 
   const setMainValue = (name, value) => {
-    setWalking({ ...walking, [name]: value });
-    handlePublishWalkConfig();
+    setMain({ ...main, [name]: value });
+    // handlePublishWalkConfig();
   };
 
-  const setConfigValue = (name, key, value) => {
-    setConfig({ ...config, [name]: { ...config[name], [key]: value } });
-    handlePublishConfig(name, key, value);
+  const setWalkingValue = (name, key, value) => {
+    setWalking({ ...walking, [name]: { ...walking[name], [key]: value } });
+    // handlePublishConfig(name, key, value);
+  };
+
+  const setKinematicValue = (name, key, value) => {
+    setKinematic({ ...kinematic, [name]: { ...kinematic[name], [key]: value } });
+    // handlePublishConfig(name, key, value);
   };
 
   return (
     <WalkContext.Provider value={{
+      main,
       walking,
-      config,
-      publishingWalkConfig,
-      publishingConfig,
+      kinematic,
       setMainValue,
-      setConfigValue,
+      setWalkingValue,
+      setKinematicValue,
     }}
     >
       <Router>

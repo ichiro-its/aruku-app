@@ -25,17 +25,15 @@ const ItemValue = styled(Typography)(({ theme }) => ({
   padding: theme.spacing(1),
 }));
 
-function SwitchState({ name, value }) {
-  const { setMainValue } = useContext(WalkContext);
+function SwitchState({ name, value, type }) {
+  const { setMainValue, setWalkingValue } = useContext(WalkContext);
 
   return (
     <Item>
       <Grid container spacing={1}>
         <Grid item xs={6}>
           <ItemTitle>
-            {' '}
-            {name.toUpperCase()}
-            {' '}
+            {name === 'enable' ? 'AUTO_BALANCE' : name.toUpperCase()}
           </ItemTitle>
         </Grid>
         <Grid item xs>
@@ -43,7 +41,8 @@ function SwitchState({ name, value }) {
         </Grid>
         <Grid item xs>
           <Switch
-            onChange={(event) => setMainValue(name, event.target.checked)}
+            onChange={type === 'main' ? (event) => setMainValue(name, event.target.checked)
+              : (event) => setWalkingValue('balance', name, event.target.checked)}
             checked={value}
           />
         </Grid>
