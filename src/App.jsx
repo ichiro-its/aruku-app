@@ -1,7 +1,14 @@
-/* eslint-disable camelcase */
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-// import { useHandleProcess, useLogger, usePublisher } from 'kumo-app';
+import {
+  BridgeProvider,
+  BridgeConnection,
+  LoggerProvider,
+  SessionProvider,
+  // useHandleProcess,
+  // useLogger,
+  // usePublisher,
+} from 'kumo-app';
 import Header from './components/Header';
 
 import Walk from './WalkSettings';
@@ -94,26 +101,27 @@ function App() {
   //       run, x_move, y_move, z_move, aim_on,
   //     })
   //     .then(() => {
-  //       logger.success('Successfully publish set joints.');
+  //       logger.success('Successfully publish main config.');
   //     })
   //     .catch((err) => {
-  //       logger.error(`Failed to publish set joints data! ${err.message}.`);
+  //       logger.error(`Failed to publish main config! ${err.message}.`);
   //     });
   // }, 500);
 
-  // const [publishingConfig, handlePublishConfig] = useHandleProcess(
-  //   (name, key, value) => configPublisher
+  // const [publishingConfig, handlePublishConfig] = useHandleProcess(() => {
+  //   const json_kinematic = JSON.stringify(kinematic);
+  //   const json_walking = JSON.stringify(walking);
+  //   return configPublisher
   //     .publish({
-  //       name, key, value,
+  //       json_kinematic, json_walking,
   //     })
   //     .then(() => {
-  //       logger.success('Successfully publish set joints.');
+  //       logger.success('Successfully publish kinematic and walking config.');
   //     })
   //     .catch((err) => {
-  //       logger.error(`Failed to publish set joints data! ${err.message}.`);
-  //     }),
-  //   500,
-  // );
+  //       logger.error(`Failed to publish kinematic and walking config! ${err.message}.`);
+  //     });
+  // }, 500);
 
   const setMainValue = (name, value) => {
     setMain({ ...main, [name]: value });
@@ -122,12 +130,12 @@ function App() {
 
   const setWalkingValue = (name, key, value) => {
     setWalking({ ...walking, [name]: { ...walking[name], [key]: value } });
-    // handlePublishConfig(name, key, value);
+    // handlePublishConfig();
   };
 
   const setKinematicValue = (name, key, value) => {
     setKinematic({ ...kinematic, [name]: { ...kinematic[name], [key]: value } });
-    // handlePublishConfig(name, key, value);
+    // handlePublishConfig();
   };
 
   return (
@@ -135,18 +143,27 @@ function App() {
       main,
       walking,
       kinematic,
+      // publishingConfig,
+      // publishingWalkConfig,
       setMainValue,
       setWalkingValue,
       setKinematicValue,
     }}
     >
-      <Router>
-        <Header />
-        <Routes>
-          <Route path="/" element={<Walk />} />
-          <Route path="/init" element={<Init />} />
-        </Routes>
-      </Router>
+      <LoggerProvider>
+        <BridgeProvider>
+          <BridgeConnection />
+          <SessionProvider>
+            <Router>
+              <Header />
+              <Routes>
+                <Route path="/" element={<Walk />} />
+                <Route path="/init" element={<Init />} />
+              </Routes>
+            </Router>
+          </SessionProvider>
+        </BridgeProvider>
+      </LoggerProvider>
     </WalkContext.Provider>
   );
 }
