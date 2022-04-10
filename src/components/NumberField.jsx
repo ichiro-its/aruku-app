@@ -10,11 +10,7 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 
-import {
-  useHandleProcess,
-  useLogger,
-  usePublisher,
-} from 'kumo-app';
+import { useHandleProcess, useLogger, usePublisher } from 'kumo-app';
 
 import WalkContext from '../context/WalkContext';
 

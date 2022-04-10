@@ -6,11 +6,7 @@ import Grid from '@mui/material/Grid';
 import Switch from '@mui/material/Switch';
 import Typography from '@mui/material/Typography';
 
-import {
-  useHandleProcess,
-  useLogger,
-  usePublisher,
-} from 'kumo-app';
+import { useHandleProcess, useLogger, usePublisher } from 'kumo-app';
 
 import WalkContext from '../context/WalkContext';
 

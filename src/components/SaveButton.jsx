@@ -1,16 +1,15 @@
+import React, { useContext } from 'react';
 import { Button, CircularProgress } from '@mui/material';
 
 import { useClient, useHandleProcess, useLogger } from 'kumo-app';
 
-import React, { useContext } from 'react';
-
 import WalkContext from '../context/WalkContext';
 
 function SaveButton() {
+  const { kinematic, walking } = useContext(WalkContext);
+
   const client = useClient();
   const logger = useLogger();
-
-  const { kinematic, walking } = useContext(WalkContext);
 
   const [saving, handleSave] = useHandleProcess(() => {
     const json_kinematic = JSON.stringify(kinematic);

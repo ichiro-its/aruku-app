@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import {
-  BridgeProvider,
-  BridgeConnection,
-  LoggerProvider,
-  NodeProvider,
-  SessionProvider,
+  BridgeProvider, BridgeConnection, LoggerProvider, NodeProvider, SessionProvider,
 } from 'kumo-app';
 import Header from './components/Header';
 

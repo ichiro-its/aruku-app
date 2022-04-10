@@ -1,16 +1,15 @@
+import React, { useContext } from 'react';
 import { Button, CircularProgress } from '@mui/material';
 
 import { useClient, useHandleProcess, useLogger } from 'kumo-app';
 
-import React, { useContext } from 'react';
-
 import WalkContext from '../context/WalkContext';
 
 function ReloadButton() {
+  const { setKinematic, setWalking } = useContext(WalkContext);
+
   const client = useClient();
   const logger = useLogger();
-
-  const { setKinematic, setWalking } = useContext(WalkContext);
 
   const [reloading, handleReload] = useHandleProcess(() => client
     .call({})
