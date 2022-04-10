@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useContext } from 'react';
 import { styled } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
@@ -8,6 +9,12 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+
+import {
+  useHandleProcess,
+  useLogger,
+  usePublisher,
+} from 'kumo-app';
 
 import WalkContext from '../context/WalkContext';
 
@@ -38,15 +45,56 @@ function NumberField(props) {
     value,
     type,
   } = props;
-  const { setMainValue, setWalkingValue, setKinematicValue } = useContext(WalkContext);
+  const {
+    main, kinematic, walking, setMainValue, setWalkingValue, setKinematicValue,
+  } = useContext(WalkContext);
+  const configPublisher = usePublisher();
+  const walkConfigPublisher = usePublisher();
+  const logger = useLogger();
+
+  const [publishingWalking, handlePublishWalking] = useHandleProcess(() => {
+    const run = main.start;
+    const x_move = main.x;
+    const y_move = main.y;
+    const a_move = main.a;
+    const aim_on = main.aim;
+    return walkConfigPublisher
+      .publish({
+        run, x_move, y_move, a_move, aim_on,
+      })
+      .then(() => {
+        logger.success('Successfully publish main config.');
+      })
+      .catch((err) => {
+        logger.error(`Failed to publish main config! ${err.message}.`);
+      });
+  }, 500);
+
+  const [publishingConfig, handlePublishConfig] = useHandleProcess(() => {
+    const json_kinematic = JSON.stringify(kinematic);
+    const json_walking = JSON.stringify(walking);
+    return configPublisher
+      .publish({
+        json_kinematic, json_walking,
+      })
+      .then(() => {
+        logger.success('Successfully publish kinematic and walking config.');
+      })
+      .catch((err) => {
+        logger.error(`Failed to publish kinematic and walking config! ${err.message}.`);
+      });
+  }, 500);
 
   function setValue(val) {
     if (type === 'main') {
       setMainValue(keys, value + val);
+      handlePublishWalking();
     } else if (type === 'walking') {
       setWalkingValue(name, keys, value + val);
+      handlePublishConfig();
     } else {
       setKinematicValue(name, keys, value + val);
+      handlePublishConfig();
     }
   }
 

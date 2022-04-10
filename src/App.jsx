@@ -4,10 +4,8 @@ import {
   BridgeProvider,
   BridgeConnection,
   LoggerProvider,
+  NodeProvider,
   SessionProvider,
-  // useHandleProcess,
-  // useLogger,
-  // usePublisher,
 } from 'kumo-app';
 import Header from './components/Header';
 
@@ -86,56 +84,16 @@ function App() {
     },
   });
 
-  // const configPublisher = usePublisher();
-  // const walkConfigPublisher = usePublisher();
-  // const logger = useLogger();
-
-  // const [publishingWalkConfig, handlePublishWalkConfig] = useHandleProcess(() => {
-  //   const run = walking.start;
-  //   const x_move = walking.x;
-  //   const y_move = walking.y;
-  //   const z_move = walking.z;
-  //   const aim_on = walking.aim;
-  //   return walkConfigPublisher
-  //     .publish({
-  //       run, x_move, y_move, z_move, aim_on,
-  //     })
-  //     .then(() => {
-  //       logger.success('Successfully publish main config.');
-  //     })
-  //     .catch((err) => {
-  //       logger.error(`Failed to publish main config! ${err.message}.`);
-  //     });
-  // }, 500);
-
-  // const [publishingConfig, handlePublishConfig] = useHandleProcess(() => {
-  //   const json_kinematic = JSON.stringify(kinematic);
-  //   const json_walking = JSON.stringify(walking);
-  //   return configPublisher
-  //     .publish({
-  //       json_kinematic, json_walking,
-  //     })
-  //     .then(() => {
-  //       logger.success('Successfully publish kinematic and walking config.');
-  //     })
-  //     .catch((err) => {
-  //       logger.error(`Failed to publish kinematic and walking config! ${err.message}.`);
-  //     });
-  // }, 500);
-
   const setMainValue = (name, value) => {
     setMain({ ...main, [name]: value });
-    // handlePublishWalkConfig();
   };
 
   const setWalkingValue = (name, key, value) => {
     setWalking({ ...walking, [name]: { ...walking[name], [key]: value } });
-    // handlePublishConfig();
   };
 
   const setKinematicValue = (name, key, value) => {
     setKinematic({ ...kinematic, [name]: { ...kinematic[name], [key]: value } });
-    // handlePublishConfig();
   };
 
   return (
@@ -143,8 +101,6 @@ function App() {
       main,
       walking,
       kinematic,
-      // publishingConfig,
-      // publishingWalkConfig,
       setMainValue,
       setWalkingValue,
       setKinematicValue,
@@ -154,13 +110,15 @@ function App() {
         <BridgeProvider>
           <BridgeConnection />
           <SessionProvider>
-            <Router>
-              <Header />
-              <Routes>
-                <Route path="/" element={<Walk />} />
-                <Route path="/init" element={<Init />} />
-              </Routes>
-            </Router>
+            <NodeProvider nodeName="aruku_app">
+              <Router>
+                <Header />
+                <Routes>
+                  <Route path="/" element={<Walk />} />
+                  <Route path="/init" element={<Init />} />
+                </Routes>
+              </Router>
+            </NodeProvider>
           </SessionProvider>
         </BridgeProvider>
       </LoggerProvider>

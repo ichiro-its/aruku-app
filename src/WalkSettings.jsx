@@ -2,8 +2,9 @@ import React, { useContext } from 'react';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-import { ClientProvider, NodeProvider } from 'kumo-app';
 import Grid from '@mui/material/Grid';
+
+import { ClientProvider, NodeProvider, PublisherProvider } from 'kumo-app';
 
 import NumberField from './components/NumberField';
 import ReloadButton from './components/ReloadButton';
@@ -32,23 +33,58 @@ function WalkSettings() {
                 {Object.keys(main)
                   .map((name) => {
                     if (typeof main[name] === 'boolean') {
-                      return <SwitchActive key={name} name={name} value={main[name]} type="main" />;
+                      return (
+                        <PublisherProvider
+                          messageType="aruku_interfaces/msg/SetWalking"
+                          topicName="set_walking"
+                        >
+                          <SwitchActive key={name} name={name} value={main[name]} type="main" />
+                        </PublisherProvider>
+                      );
                     }
-                    return <NumberField key={name} keys={name} value={main[name]} type="main" />;
+                    return (
+                      <PublisherProvider
+                        messageType="aruku_interfaces/msg/SetWalking"
+                        topicName="set_walking"
+                      >
+                        <NumberField key={name} keys={name} value={main[name]} type="main" />
+                      </PublisherProvider>
+                    );
                   })}
                 {Object.keys(walking)
                   .slice(0, 1)
                   .map((name) => Object.keys(walking[name]).map((key) => {
                     if (typeof walking[name][key] === 'boolean') {
-                      return <SwitchActive key={key} name={key} value={walking[name][key]} type="walking" />;
+                      return (
+                        <PublisherProvider
+                          messageType="aruku_interfaces/msg/SetConfig"
+                          topicName="set_config"
+                        >
+                          <SwitchActive key={key} name={key} value={walking[name][key]} type="walking" />
+                        </PublisherProvider>
+                      );
                     }
-                    return <NumberField key={key} name={name} keys={key} value={walking[name][key]} type="walking" />;
+                    return (
+                      <PublisherProvider
+                        messageType="aruku_interfaces/msg/SetConfig"
+                        topicName="set_config"
+                      >
+                        <NumberField key={key} name={name} keys={key} value={walking[name][key]} type="walking" />
+                      </PublisherProvider>
+                    );
                   }))}
                 {Object.keys(kinematic)
                   .slice(0, 1)
                   .map((name) => Object.keys(kinematic[name])
                     .slice(0, 1)
-                    .map((key) => <NumberField key={key} name={name} keys={key} value={kinematic[name][key]} type="kinematic" />))}
+                    .map((key) => (
+                      <PublisherProvider
+                        messageType="aruku_interfaces/msg/SetConfig"
+                        topicName="set_config"
+                      >
+                        <NumberField key={key} name={name} keys={key} value={kinematic[name][key]} type="kinematic" />
+                      </PublisherProvider>
+                    )))}
               </Item>
             </Grid>
             <Grid item xs={12} md={6} lg={4}>
@@ -57,7 +93,14 @@ function WalkSettings() {
                   .slice(0, 1)
                   .map((name) => Object.keys(kinematic[name])
                     .slice(1, 12)
-                    .map((key) => <NumberField key={key} name={name} keys={key} value={kinematic[name][key]} type="kinematic" />))}
+                    .map((key) => (
+                      <PublisherProvider
+                        messageType="aruku_interfaces/msg/SetConfig"
+                        topicName="set_config"
+                      >
+                        <NumberField key={key} name={name} keys={key} value={kinematic[name][key]} type="kinematic" />
+                      </PublisherProvider>
+                    )))}
               </Item>
             </Grid>
             <Grid item xs={12} md={6} lg={4}>
@@ -66,15 +109,36 @@ function WalkSettings() {
                   .slice(0, 1)
                   .map((name) => Object.keys(kinematic[name])
                     .slice(12, 13)
-                    .map((key) => <NumberField key={key} name={name} keys={key} value={kinematic[name][key]} type="kinematic" />))}
+                    .map((key) => (
+                      <PublisherProvider
+                        messageType="aruku_interfaces/msg/SetConfig"
+                        topicName="set_config"
+                      >
+                        <NumberField key={key} name={name} keys={key} value={kinematic[name][key]} type="kinematic" />
+                      </PublisherProvider>
+                    )))}
                 {Object.keys(kinematic)
                   .slice(1, 2)
                   .map((name) => Object.keys(kinematic[name])
-                    .map((key) => <NumberField key={key} name={name} keys={key} value={kinematic[name][key]} type="kinematic" />))}
+                    .map((key) => (
+                      <PublisherProvider
+                        messageType="aruku_interfaces/msg/SetConfig"
+                        topicName="set_config"
+                      >
+                        <NumberField key={key} name={name} keys={key} value={kinematic[name][key]} type="kinematic" />
+                      </PublisherProvider>
+                    )))}
                 {Object.keys(walking)
                   .slice(1, 2)
                   .map((name) => Object.keys(walking[name])
-                    .map((key) => <NumberField key={key} name={name} keys={key} value={walking[name][key]} type="walking" />))}
+                    .map((key) => (
+                      <PublisherProvider
+                        messageType="aruku_interfaces/msg/SetConfig"
+                        topicName="set_config"
+                      >
+                        <NumberField key={key} name={name} keys={key} value={walking[name][key]} type="walking" />
+                      </PublisherProvider>
+                    )))}
               </Item>
             </Grid>
           </Grid>

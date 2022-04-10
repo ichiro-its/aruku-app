@@ -5,7 +5,12 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
-import { ClientProvider, NodeProvider } from 'kumo-app';
+import {
+  ClientProvider,
+  NodeProvider,
+  PublisherProvider,
+} from 'kumo-app';
+
 import NumberField from './components/NumberField';
 import ReloadButton from './components/ReloadButton';
 import SaveButton from './components/SaveButton';
@@ -36,12 +41,26 @@ function InitSettings() {
                   .slice(2, 3)
                   .map((name) => Object.keys(walking[name])
                     .slice(0, 3)
-                    .map((key) => <NumberField key={key} name={name} keys={key} value={walking[name][key]} type="walking" />))}
+                    .map((key) => (
+                      <PublisherProvider
+                        messageType="aruku_interfaces/msg/SetConfig"
+                        topicName="set_config"
+                      >
+                        <NumberField key={key} name={name} keys={key} value={walking[name][key]} type="walking" />
+                      </PublisherProvider>
+                    )))}
                 {Object.keys(walking)
                   .slice(2, 3)
                   .map((name) => Object.keys(walking[name])
                     .slice(6, 12)
-                    .map((key) => <NumberField key={key} name={name} keys={key} value={walking[name][key]} type="walking" />))}
+                    .map((key) => (
+                      <PublisherProvider
+                        messageType="aruku_interfaces/msg/SetConfig"
+                        topicName="set_config"
+                      >
+                        <NumberField key={key} name={name} keys={key} value={walking[name][key]} type="walking" />
+                      </PublisherProvider>
+                    )))}
               </Item>
             </Grid>
             <Grid item xs={12} md={6}>
@@ -53,12 +72,26 @@ function InitSettings() {
                   .slice(2, 3)
                   .map((name) => Object.keys(walking[name])
                     .slice(3, 6)
-                    .map((key) => <NumberField key={key} name={name} keys={key} value={walking[name][key]} type="walking" />))}
+                    .map((key) => (
+                      <PublisherProvider
+                        messageType="aruku_interfaces/msg/SetConfig"
+                        topicName="set_config"
+                      >
+                        <NumberField key={key} name={name} keys={key} value={walking[name][key]} type="walking" />
+                      </PublisherProvider>
+                    )))}
                 {Object.keys(walking)
                   .slice(2, 3)
                   .map((name) => Object.keys(walking[name])
                     .slice(12, 18)
-                    .map((key) => <NumberField key={key} name={name} keys={key} value={walking[name][key]} type="walking" />))}
+                    .map((key) => (
+                      <PublisherProvider
+                        messageType="aruku_interfaces/msg/SetConfig"
+                        topicName="set_config"
+                      >
+                        <NumberField key={key} name={name} keys={key} value={walking[name][key]} type="walking" />
+                      </PublisherProvider>
+                    )))}
               </Item>
             </Grid>
           </Grid>
