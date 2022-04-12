@@ -1,5 +1,5 @@
 import React, {
-  useContext, useEffect, useState,
+  useContext, useEffect,
 } from 'react';
 import { Button, CircularProgress } from '@mui/material';
 
@@ -13,7 +13,6 @@ function ReloadButton() {
   const client = useClient();
   const logger = useLogger();
 
-  const [init, setInit] = useState(true);
   const [reloading, handleReload] = useHandleProcess(() => client
     .call({})
     .then((response) => {
@@ -28,11 +27,8 @@ function ReloadButton() {
     }), 500);
 
   useEffect(() => {
-    if (init) {
-      handleReload();
-      setInit(!init);
-    }
-  }, [init]);
+    handleReload();
+  }, []);
 
   return (
     <Button
