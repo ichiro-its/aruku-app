@@ -1,4 +1,6 @@
-import React, { useContext } from 'react';
+import React, {
+  useContext, useEffect, useState, useRef,
+} from 'react';
 import { Button, CircularProgress } from '@mui/material';
 
 import { useClient, useHandleProcess, useLogger } from 'kumo-app';
@@ -11,6 +13,7 @@ function ReloadButton() {
   const client = useClient();
   const logger = useLogger();
 
+  const [init, setInit] = useState(true);
   const [reloading, handleReload] = useHandleProcess(() => client
     .call({})
     .then((response) => {
@@ -19,10 +22,22 @@ function ReloadButton() {
       const walking = JSON.parse(`${response.json_walking}`);
       setKinematic(kinematic);
       setWalking(walking);
+      setInit(!init);
     })
     .catch((err) => {
       logger.error(`Failed to load config! ${err.message}.`);
     }), 500);
+
+  const calledOnce = useRef(false);
+  useEffect(() => {
+    if (calledOnce.current) {
+      return;
+    }
+    if (init) {
+      handleReload();
+      calledOnce.current = true;
+    }
+  }, [init]);
 
   return (
     <Button
