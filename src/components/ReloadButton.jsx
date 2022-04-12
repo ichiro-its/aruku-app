@@ -1,5 +1,5 @@
 import React, {
-  useContext, useEffect, useState, useRef,
+  useContext, useEffect, useState,
 } from 'react';
 import { Button, CircularProgress } from '@mui/material';
 
@@ -22,20 +22,15 @@ function ReloadButton() {
       const walking = JSON.parse(`${response.json_walking}`);
       setKinematic(kinematic);
       setWalking(walking);
-      setInit(!init);
     })
     .catch((err) => {
       logger.error(`Failed to load config! ${err.message}.`);
     }), 500);
 
-  const calledOnce = useRef(false);
   useEffect(() => {
-    if (calledOnce.current) {
-      return;
-    }
     if (init) {
       handleReload();
-      calledOnce.current = true;
+      setInit(!init);
     }
   }, [init]);
 
