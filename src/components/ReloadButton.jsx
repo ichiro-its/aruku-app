@@ -17,8 +17,8 @@ function ReloadButton() {
     .call({})
     .then((response) => {
       logger.success('Successfully get config.');
-      const kinematic = JSON.parse(`${response.json_kinematic}`);
-      const walking = JSON.parse(`${response.json_walking}`);
+      const kinematic = JSON.parse(`${response.json_kinematic.replace('/\\/g', '')}`);
+      const walking = JSON.parse(`${response.json_walking.replace('/\\/g', '')}`);
       setKinematic(kinematic);
       setWalking(walking);
     })
