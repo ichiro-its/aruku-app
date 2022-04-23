@@ -34,30 +34,16 @@ function InitSettings() {
               <Typography variant="h6" component="div" sx={{ padding: 1 }}>
                 Left Foot
               </Typography>
-              {Object.keys(walking)
-                .slice(2, 3)
-                .map((name) => Object.keys(walking[name])
-                  .slice(0, 3)
-                  .map((key) => (
-                    <PublisherProvider
-                      messageType="aruku_interfaces/msg/SetConfig"
-                      topicName="set_config"
-                    >
-                      <NumberField key={key} name={name} keys={key} value={walking[name][key]} type="walking" />
-                    </PublisherProvider>
-                  )))}
-              {Object.keys(walking)
-                .slice(2, 3)
-                .map((name) => Object.keys(walking[name])
-                  .slice(6, 12)
-                  .map((key) => (
-                    <PublisherProvider
-                      messageType="aruku_interfaces/msg/SetConfig"
-                      topicName="set_config"
-                    >
-                      <NumberField key={key} name={name} keys={key} value={walking[name][key]} type="walking" />
-                    </PublisherProvider>
-                  )))}
+              {Object.keys(walking.init_angles)
+                .slice(0, 9)
+                .map((key) => (
+                  <PublisherProvider
+                    messageType="aruku_interfaces/msg/SetConfig"
+                    topicName="set_config"
+                  >
+                    <NumberField name="init_angles" keys={key} value={walking.init_angles[key]} type="walking" />
+                  </PublisherProvider>
+                ))}
             </Item>
           </Grid>
           <Grid item xs={12} md={6}>
@@ -65,30 +51,16 @@ function InitSettings() {
               <Typography variant="h6" component="div" sx={{ padding: 1 }}>
                 Right Foot
               </Typography>
-              {Object.keys(walking)
-                .slice(2, 3)
-                .map((name) => Object.keys(walking[name])
-                  .slice(3, 6)
-                  .map((key) => (
-                    <PublisherProvider
-                      messageType="aruku_interfaces/msg/SetConfig"
-                      topicName="set_config"
-                    >
-                      <NumberField key={key} name={name} keys={key} value={walking[name][key]} type="walking" />
-                    </PublisherProvider>
-                  )))}
-              {Object.keys(walking)
-                .slice(2, 3)
-                .map((name) => Object.keys(walking[name])
-                  .slice(12, 18)
-                  .map((key) => (
-                    <PublisherProvider
-                      messageType="aruku_interfaces/msg/SetConfig"
-                      topicName="set_config"
-                    >
-                      <NumberField key={key} name={name} keys={key} value={walking[name][key]} type="walking" />
-                    </PublisherProvider>
-                  )))}
+              {Object.keys(walking.init_angles)
+                .slice(9, 18)
+                .map((key) => (
+                  <PublisherProvider
+                    messageType="aruku_interfaces/msg/SetConfig"
+                    topicName="set_config"
+                  >
+                    <NumberField name="init_angles" keys={key} value={walking.init_angles[key]} type="walking" />
+                  </PublisherProvider>
+                ))}
             </Item>
           </Grid>
         </Grid>

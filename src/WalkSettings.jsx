@@ -38,7 +38,7 @@ function WalkSettings() {
                         messageType="aruku_interfaces/msg/SetWalking"
                         topicName="set_walking"
                       >
-                        <SwitchActive key={name} name={name} value={main[name]} type="main" />
+                        <SwitchActive name={name} value={main[name]} type="main" />
                       </PublisherProvider>
                     );
                   }
@@ -47,7 +47,7 @@ function WalkSettings() {
                       messageType="aruku_interfaces/msg/SetWalking"
                       topicName="set_walking"
                     >
-                      <NumberField key={name} keys={name} value={main[name]} type="main" />
+                      <NumberField keys={name} value={main[name]} type="main" />
                     </PublisherProvider>
                   );
                 })}
@@ -60,7 +60,7 @@ function WalkSettings() {
                         messageType="aruku_interfaces/msg/SetConfig"
                         topicName="set_config"
                       >
-                        <SwitchActive key={key} name={key} value={walking[name][key]} type="walking" />
+                        <SwitchActive name={key} value={walking[name][key]} type="walking" />
                       </PublisherProvider>
                     );
                   }
@@ -69,76 +69,58 @@ function WalkSettings() {
                       messageType="aruku_interfaces/msg/SetConfig"
                       topicName="set_config"
                     >
-                      <NumberField key={key} name={name} keys={key} value={walking[name][key]} type="walking" />
+                      <NumberField name={name} keys={key} value={walking[name][key]} type="walking" />
                     </PublisherProvider>
                   );
                 }))}
-              {Object.keys(kinematic)
-                .slice(0, 1)
-                .map((name) => Object.keys(kinematic[name])
-                  .slice(0, 1)
-                  .map((key) => (
-                    <PublisherProvider
-                      messageType="aruku_interfaces/msg/SetConfig"
-                      topicName="set_config"
-                    >
-                      <NumberField key={key} name={name} keys={key} value={kinematic[name][key]} type="kinematic" />
-                    </PublisherProvider>
-                  )))}
+              <PublisherProvider
+                messageType="aruku_interfaces/msg/SetConfig"
+                topicName="set_config"
+              >
+                <NumberField name="ratio" keys="forward_hip_comp_ratio" value={kinematic.ratio.forward_hip_comp_ratio} type="kinematic" />
+              </PublisherProvider>
             </Item>
           </Grid>
           <Grid item xs={12} md={6} lg={4}>
             <Item>
-              {Object.keys(kinematic)
-                .slice(0, 1)
-                .map((name) => Object.keys(kinematic[name])
-                  .slice(1, 12)
-                  .map((key) => (
-                    <PublisherProvider
-                      messageType="aruku_interfaces/msg/SetConfig"
-                      topicName="set_config"
-                    >
-                      <NumberField key={key} name={name} keys={key} value={kinematic[name][key]} type="kinematic" />
-                    </PublisherProvider>
-                  )))}
+              {Object.keys(kinematic.ratio)
+                .slice(1, 12)
+                .map((key) => (
+                  <PublisherProvider
+                    messageType="aruku_interfaces/msg/SetConfig"
+                    topicName="set_config"
+                  >
+                    <NumberField name="ratio" keys={key} value={kinematic.ratio[key]} type="kinematic" />
+                  </PublisherProvider>
+                ))}
             </Item>
           </Grid>
           <Grid item xs={12} md={6} lg={4}>
             <Item>
-              {Object.keys(kinematic)
-                .slice(0, 1)
-                .map((name) => Object.keys(kinematic[name])
-                  .slice(12, 13)
-                  .map((key) => (
-                    <PublisherProvider
-                      messageType="aruku_interfaces/msg/SetConfig"
-                      topicName="set_config"
-                    >
-                      <NumberField key={key} name={name} keys={key} value={kinematic[name][key]} type="kinematic" />
-                    </PublisherProvider>
-                  )))}
-              {Object.keys(kinematic)
-                .slice(1, 2)
-                .map((name) => Object.keys(kinematic[name])
-                  .map((key) => (
-                    <PublisherProvider
-                      messageType="aruku_interfaces/msg/SetConfig"
-                      topicName="set_config"
-                    >
-                      <NumberField key={key} name={name} keys={key} value={kinematic[name][key]} type="kinematic" />
-                    </PublisherProvider>
-                  )))}
-              {Object.keys(walking)
-                .slice(1, 2)
-                .map((name) => Object.keys(walking[name])
-                  .map((key) => (
-                    <PublisherProvider
-                      messageType="aruku_interfaces/msg/SetConfig"
-                      topicName="set_config"
-                    >
-                      <NumberField key={key} name={name} keys={key} value={walking[name][key]} type="walking" />
-                    </PublisherProvider>
-                  )))}
+              <PublisherProvider
+                messageType="aruku_interfaces/msg/SetConfig"
+                topicName="set_config"
+              >
+                <NumberField name="ratio" keys="foot_accel_ratio" value={kinematic.ratio.foot_accel_ratio} type="kinematic" />
+              </PublisherProvider>
+              {Object.keys(kinematic.offset)
+                .map((key) => (
+                  <PublisherProvider
+                    messageType="aruku_interfaces/msg/SetConfig"
+                    topicName="set_config"
+                  >
+                    <NumberField name="offset" keys={key} value={kinematic.offset[key]} type="kinematic" />
+                  </PublisherProvider>
+                ))}
+              {Object.keys(walking.odometry)
+                .map((key) => (
+                  <PublisherProvider
+                    messageType="aruku_interfaces/msg/SetConfig"
+                    topicName="set_config"
+                  >
+                    <NumberField name="odometry" keys={key} value={walking.odometry[key]} type="walking" />
+                  </PublisherProvider>
+                ))}
             </Item>
           </Grid>
         </Grid>
