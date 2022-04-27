@@ -51,7 +51,8 @@ function WalkSettings() {
                     </PublisherProvider>
                   );
                 })}
-              {Object.keys(walking.balance).map((key) => {
+              {Object.keys(walking.balance)
+                .map((key) => {
                   if (typeof walking.balance[key] === 'boolean') {
                     return (
                       <PublisherProvider
