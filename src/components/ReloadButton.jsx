@@ -8,7 +8,9 @@ import { useClient, useHandleProcess, useLogger } from 'kumo-app';
 import WalkContext from '../context/WalkContext';
 
 function ReloadButton() {
-  const { setKinematic, setWalking } = useContext(WalkContext);
+  const {
+    setKinematicValue, setWalkingValue,
+  } = useContext(WalkContext);
 
   const client = useClient();
   const logger = useLogger();
@@ -19,8 +21,16 @@ function ReloadButton() {
       logger.success('Successfully get config.');
       const kinematic = JSON.parse(`${response.json_kinematic.replace('/\\/g', '')}`);
       const walking = JSON.parse(`${response.json_walking.replace('/\\/g', '')}`);
-      setKinematic(kinematic);
-      setWalking(walking);
+      for (const name in kinematic) {
+        for (const [key, value] of Object.entries(kinematic[name])) {
+          setKinematicValue(name, key, value);
+        }
+      }
+      for (const name in walking) {
+        for (const [key, value] of Object.entries(walking[name])) {
+          setWalkingValue(name, key, value);
+        }
+      }
     })
     .catch((err) => {
       logger.error(`Failed to load config! ${err.message}.`);

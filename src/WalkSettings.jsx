@@ -51,16 +51,14 @@ function WalkSettings() {
                     </PublisherProvider>
                   );
                 })}
-              {Object.keys(walking)
-                .slice(0, 1)
-                .map((name) => Object.keys(walking[name]).map((key) => {
-                  if (typeof walking[name][key] === 'boolean') {
+              {Object.keys(walking.balance).map((key) => {
+                  if (typeof walking.balance[key] === 'boolean') {
                     return (
                       <PublisherProvider
                         messageType="aruku_interfaces/msg/SetConfig"
                         topicName="set_config"
                       >
-                        <SwitchActive name={key} value={walking[name][key]} type="walking" />
+                        <SwitchActive name={key} value={walking.balance[key]} type="walking" />
                       </PublisherProvider>
                     );
                   }
@@ -69,10 +67,10 @@ function WalkSettings() {
                       messageType="aruku_interfaces/msg/SetConfig"
                       topicName="set_config"
                     >
-                      <NumberField name={name} keys={key} value={walking[name][key]} type="walking" />
+                      <NumberField name="balance" keys={key} value={walking.balance[key]} type="walking" />
                     </PublisherProvider>
                   );
-                }))}
+                })}
               <PublisherProvider
                 messageType="aruku_interfaces/msg/SetConfig"
                 topicName="set_config"
