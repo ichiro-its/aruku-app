@@ -11,8 +11,8 @@ import ReloadButton from './components/ReloadButton';
 import SaveButton from './components/SaveButton';
 import SwitchActive from './components/SwitchActive';
 import NumberField from './components/NumberField';
-import WalkingSetWalking from './components/WalkingSetWalking';
-import WalkingSetConfig from './components/WalkingSetConfig';
+import WalkSetWalking from './components/WalkSetWalking';
+import WalkSetConfig from './components/WalkSetConfig';
 import WalkContext from './context/WalkContext';
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -36,7 +36,7 @@ function WalkSettings() {
                 messageType="aruku_interfaces/msg/SetWalking"
                 topicName="set_walking"
               >
-                <WalkingSetWalking />
+                <WalkSetWalking />
               </PublisherProvider>
               {Object.keys(walking.balance)
                 .map((key) => {
@@ -56,7 +56,7 @@ function WalkSettings() {
             messageType="aruku_interfaces/msg/SetConfig"
             topicName="set_config"
           >
-            <WalkingSetConfig />
+            <WalkSetConfig />
           </PublisherProvider>
         </Grid>
         <Grid container>
