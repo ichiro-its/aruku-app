@@ -32,7 +32,7 @@ function SaveButton() {
       disabled={client == null || saving}
       color="primary"
       variant="contained"
-      sx={{ margin: 1, top: 5, left: 30 }}
+      sx={{ margin: 1, top: 5 }}
     >
       {saving ? <CircularProgress size={24} /> : 'Save'}
     </Button>

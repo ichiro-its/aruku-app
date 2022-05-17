@@ -40,7 +40,7 @@ function ReloadButton() {
       disabled={client == null || reloading}
       color="warning"
       variant="contained"
-      sx={{ margin: 1, top: 5, left: 30 }}
+      sx={{ margin: 1, top: 5 }}
     >
       {reloading ? <CircularProgress size={24} /> : 'Reload'}
     </Button>

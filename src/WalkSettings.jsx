@@ -7,10 +7,12 @@ import Grid from '@mui/material/Grid';
 
 import { ClientProvider, PublisherProvider } from 'kumo-app';
 
-import NumberField from './components/NumberField';
 import ReloadButton from './components/ReloadButton';
 import SaveButton from './components/SaveButton';
 import SwitchActive from './components/SwitchActive';
+import NumberField from './components/NumberField';
+import WalkingSetWalking from './components/WalkingSetWalking';
+import WalkingSetConfig from './components/WalkingSetConfig';
 import WalkContext from './context/WalkContext';
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -22,106 +24,40 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 function WalkSettings() {
-  const { main, walking, kinematic } = useContext(WalkContext);
+  const { walking, kinematic } = useContext(WalkContext);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Item>
         <Grid container spacing={1}>
-          <Grid item xs={12} md={6} lg={4}>
+          <Grid item xs={12} md={8} lg={4}>
             <Item>
-              {Object.keys(main)
-                .map((name) => {
-                  if (typeof main[name] === 'boolean') {
-                    return (
-                      <PublisherProvider
-                        messageType="aruku_interfaces/msg/SetWalking"
-                        topicName="set_walking"
-                      >
-                        <SwitchActive name={name} value={main[name]} type="main" />
-                      </PublisherProvider>
-                    );
-                  }
-                  return (
-                    <PublisherProvider
-                      messageType="aruku_interfaces/msg/SetWalking"
-                      topicName="set_walking"
-                    >
-                      <NumberField keys={name} value={main[name]} type="main" />
-                    </PublisherProvider>
-                  );
-                })}
+              <PublisherProvider
+                messageType="aruku_interfaces/msg/SetWalking"
+                topicName="set_walking"
+              >
+                <WalkingSetWalking />
+              </PublisherProvider>
               {Object.keys(walking.balance)
                 .map((key) => {
                   if (typeof walking.balance[key] === 'boolean') {
                     return (
-                      <PublisherProvider
-                        messageType="aruku_interfaces/msg/SetConfig"
-                        topicName="set_config"
-                      >
-                        <SwitchActive name={key} value={walking.balance[key]} type="walking" />
-                      </PublisherProvider>
+                      <SwitchActive name={key} value={walking.balance[key]} type="walking" />
                     );
                   }
                   return (
-                    <PublisherProvider
-                      messageType="aruku_interfaces/msg/SetConfig"
-                      topicName="set_config"
-                    >
-                      <NumberField name="balance" keys={key} value={walking.balance[key]} type="walking" />
-                    </PublisherProvider>
+                    <NumberField name="balance" keys={key} value={walking.balance[key]} type="walking" />
                   );
                 })}
-              <PublisherProvider
-                messageType="aruku_interfaces/msg/SetConfig"
-                topicName="set_config"
-              >
-                <NumberField name="ratio" keys="forward_hip_comp_ratio" value={kinematic.ratio.forward_hip_comp_ratio} type="kinematic" />
-              </PublisherProvider>
+              <NumberField name="ratio" keys="forward_hip_comp_ratio" value={kinematic.ratio.forward_hip_comp_ratio} type="kinematic" />
             </Item>
           </Grid>
-          <Grid item xs={12} md={6} lg={4}>
-            <Item>
-              {Object.keys(kinematic.ratio)
-                .slice(1, 12)
-                .map((key) => (
-                  <PublisherProvider
-                    messageType="aruku_interfaces/msg/SetConfig"
-                    topicName="set_config"
-                  >
-                    <NumberField name="ratio" keys={key} value={kinematic.ratio[key]} type="kinematic" />
-                  </PublisherProvider>
-                ))}
-            </Item>
-          </Grid>
-          <Grid item xs={12} md={6} lg={4}>
-            <Item>
-              <PublisherProvider
-                messageType="aruku_interfaces/msg/SetConfig"
-                topicName="set_config"
-              >
-                <NumberField name="ratio" keys="foot_accel_ratio" value={kinematic.ratio.foot_accel_ratio} type="kinematic" />
-              </PublisherProvider>
-              {Object.keys(kinematic.offset)
-                .map((key) => (
-                  <PublisherProvider
-                    messageType="aruku_interfaces/msg/SetConfig"
-                    topicName="set_config"
-                  >
-                    <NumberField name="offset" keys={key} value={kinematic.offset[key]} type="kinematic" />
-                  </PublisherProvider>
-                ))}
-              {Object.keys(walking.odometry)
-                .map((key) => (
-                  <PublisherProvider
-                    messageType="aruku_interfaces/msg/SetConfig"
-                    topicName="set_config"
-                  >
-                    <NumberField name="odometry" keys={key} value={walking.odometry[key]} type="walking" />
-                  </PublisherProvider>
-                ))}
-            </Item>
-          </Grid>
+          <PublisherProvider
+            messageType="aruku_interfaces/msg/SetConfig"
+            topicName="set_config"
+          >
+            <WalkingSetConfig />
+          </PublisherProvider>
         </Grid>
         <Grid container>
           <ClientProvider
@@ -138,7 +74,7 @@ function WalkSettings() {
           </ClientProvider>
         </Grid>
       </Item>
-    </Box>
+    </Box >
   );
 }
 
