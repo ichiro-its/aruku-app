@@ -74,7 +74,7 @@ function WalkSettings() {
           </ClientProvider>
         </Grid>
       </Item>
-    </Box >
+    </Box>
   );
 }
 
