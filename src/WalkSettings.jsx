@@ -34,7 +34,7 @@ function WalkSettings() {
             <Item>
               <PublisherProvider
                 messageType="aruku_interfaces/msg/SetWalking"
-                topicName="set_walking"
+                topicName="/walking/set_walking"
               >
                 <WalkSetWalking />
               </PublisherProvider>
@@ -54,7 +54,7 @@ function WalkSettings() {
           </Grid>
           <PublisherProvider
             messageType="aruku_interfaces/msg/SetConfig"
-            topicName="set_config"
+            topicName="/aruku/config/set_config"
           >
             <WalkSetConfig />
           </PublisherProvider>

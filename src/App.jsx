@@ -10,6 +10,7 @@ import Init from './InitSettings';
 import WalkContext from './context/WalkContext';
 
 function App() {
+  const [isDoneReload, SetIsDoneReload] = useState(false);
   const [main, setMain] = useState({
     start: true,
     x: 0.0,
@@ -27,7 +28,7 @@ function App() {
       dsp_ratio: -0.12,
       period_comp_ratio: 0.0,
       swing_up_down: -1.0,
-      arm_swing_gain: 0.2,
+      arm_swing_gain: 0,
       backward_hip_comp_ratio: 0.0,
       foot_comp_ratio: 0.0,
       foot_height: 30.0,
@@ -97,12 +98,14 @@ function App() {
       main,
       walking,
       kinematic,
+      isDoneReload,
       setKinematic,
       setMain,
       setWalking,
       setMainValue,
       setWalkingValue,
       setKinematicValue,
+      SetIsDoneReload,
     }}
     >
       <LoggerProvider>
