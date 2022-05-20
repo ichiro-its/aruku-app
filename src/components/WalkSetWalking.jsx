@@ -29,7 +29,6 @@ function WalkSetWalking() {
     const y_move = main.y;
     const a_move = main.a;
     const aim_on = main.aim;
-    console.log(main);
     return walkConfigPublisher
       .publish({
         run, x_move, y_move, a_move, aim_on,
