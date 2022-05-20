@@ -3,6 +3,7 @@ import React, { useContext, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
+import { TextField } from '@material-ui/core';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
@@ -51,6 +52,15 @@ function NumberField(props) {
       setKinematicValue(name, keys, value + val);
     }
   }
+  function changeValue(val) {
+    if (type === 'main') {
+      setMainValue(keys, val);
+    } else if (type === 'walking') {
+      setWalkingValue(name, keys, val);
+    } else {
+      setKinematicValue(name, keys, val);
+    }
+  }
 
   return (
     <Item>
@@ -71,7 +81,23 @@ function NumberField(props) {
           </IconButton>
         </Grid>
         <Grid item xs={1.5}>
-          <ItemValue>{value}</ItemValue>
+          <TextField 
+            value={value}
+            margin='dense'
+            type='number'
+            InputProps={{
+              inputProps: {
+                  style: { textAlign: 'center' },
+              }
+            }}
+            onChangeCapture={(event) => {
+              if (event.target.value === '' || isNaN(event.target.value)) {
+                changeValue(0.0);
+              } else {
+                changeValue(parseFloat(event.target.value));
+              }
+            }}
+          />
         </Grid>
         <Grid item xs={1}>
           <IconButton onClick={() => setValue(1)}>

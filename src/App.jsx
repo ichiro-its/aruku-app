@@ -11,7 +11,7 @@ import WalkContext from './context/WalkContext';
 
 function App() {
   const [main, setMain] = useState({
-    start: true,
+    start: false,
     x: 0.0,
     y: 0.0,
     a: 5.0,
@@ -80,14 +80,14 @@ function App() {
     },
   });
 
-  const setMainValue = (name, value) => { 
+  const setMainValue = (name, value) => {
     setMain((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const setWalkingValue = (name, key, value) => {
     setWalking((prevState) => ({ ...prevState, [name]: { ...prevState[name], [key]: value } }));
   };
-  
+
   const setKinematicValue = (name, key, value) => {
     setKinematic((prevState) => ({ ...prevState, [name]: { ...prevState[name], [key]: value } }));
   };
