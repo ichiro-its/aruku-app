@@ -80,8 +80,8 @@ function App() {
     },
   });
 
-  const setMainValue = (name, value) => {
-    setMain({ ...main, [name]: value });
+  const setMainValue = (name, value) => { 
+    setMain((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const setWalkingValue = (name, key, value) => {
