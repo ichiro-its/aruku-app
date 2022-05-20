@@ -10,7 +10,6 @@ import Init from './InitSettings';
 import WalkContext from './context/WalkContext';
 
 function App() {
-  const [isDoneReload, SetIsDoneReload] = useState(false);
   const [main, setMain] = useState({
     start: true,
     x: 0.0,
@@ -86,11 +85,11 @@ function App() {
   };
 
   const setWalkingValue = (name, key, value) => {
-    setWalking({ ...walking, [name]: { ...walking[name], [key]: value } });
+    setWalking((prevState) => ({ ...prevState, [name]: { ...prevState[name], [key]: value } }));
   };
-
+  
   const setKinematicValue = (name, key, value) => {
-    setKinematic({ ...kinematic, [name]: { ...kinematic[name], [key]: value } });
+    setKinematic((prevState) => ({ ...prevState, [name]: { ...prevState[name], [key]: value } }));
   };
 
   return (
@@ -98,14 +97,12 @@ function App() {
       main,
       walking,
       kinematic,
-      isDoneReload,
       setKinematic,
       setMain,
       setWalking,
       setMainValue,
       setWalkingValue,
       setKinematicValue,
-      SetIsDoneReload,
     }}
     >
       <LoggerProvider>

@@ -24,8 +24,6 @@ function WalkSetConfig() {
   const logger = useLogger();
 
   const [publishingConfig, handlePublishConfig] = useHandleProcess(() => {
-    console.log(kinematic);
-    console.log(walking);
     const json_kinematic = JSON.stringify(kinematic);
     const json_walking = JSON.stringify(walking);
     return configPublisher
