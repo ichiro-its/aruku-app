@@ -81,17 +81,17 @@ function NumberField(props) {
           </IconButton>
         </Grid>
         <Grid item xs={1.5}>
-          <TextField 
+          <TextField
             value={value}
-            margin='dense'
-            type='number'
+            margin="dense"
+            type="number"
             InputProps={{
               inputProps: {
-                  style: { textAlign: 'center' },
-              }
+                style: { textAlign: 'center' },
+              },
             }}
             onChangeCapture={(event) => {
-              if (event.target.value === '' || isNaN(event.target.value)) {
+              if (event.target.value === '') {
                 changeValue(0.0);
               } else {
                 changeValue(parseFloat(event.target.value));
