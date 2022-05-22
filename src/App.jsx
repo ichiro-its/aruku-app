@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {
+  BridgeProvider, BridgeConnection, LoggerProvider, NodeProvider, SessionProvider,
+} from 'kumo-app';
 import Header from './components/Header';
 
 import Walk from './WalkSettings';
@@ -7,82 +10,117 @@ import Init from './InitSettings';
 import WalkContext from './context/WalkContext';
 
 function App() {
-  const [walkConfig, setWalkConfig] = useState({
-    START: true,
-    X: 100.0,
-    Y: 0.0,
-    A: 5.0,
-    AIM: false,
-    BALANCE_KNEE_GAIN: 0.3,
-    BALANCE_ANKLE_PITCH_GAIN: 0.3,
-    BALANCE_HIP_ROLL_GAIN: 0.2,
-    BALANCE_ANKLE_ROLL_GAIN: 0.2,
-    PERIOD_TIME: 810.0,
-    DSP_RATIO: -0.12,
-    FOOT_HEIGHT: 30.0,
-    SWING_RIGHT_LEFT: 15.0,
-    SWING_UP_DOWN: -1.0,
-    ARM_SWING_GAIN: 0.2,
-    BACKWARD_HIP_COMP_RATIO: 0.0,
-    FORWARD_HIP_COMP_RATIO: 0.0,
-    FOOT_COMP_RATIO: 0.0,
-    DSP_COMP_RATIO: 0.0,
-    MOVE_ACCEL_RATIO: 1.0,
-    FOOT_ACCEL_RATIO: 0.2,
-    PERIOD_COMP_RATIO: 0.0,
-    X_OFFSET: 40.0,
-    Y_OFFSET: 0.0,
-    Z_OFFSET: 25.0,
-    ROLL_OFFSET: 1.0,
-    PITCH_OFFSET: -0.4,
-    YAW_OFFSET: 0.1,
-    HIP_PITCH_OFFSET: 23.0,
-    P_GAIN: 10,
-    I_GAIN: 2,
-    D_GAIN: 3,
+  const [main, setMain] = useState({
+    start: false,
+    x: 0.0,
+    y: 0.0,
+    a: 5.0,
+    aim: false,
   });
 
-  const [initConfig, setInitConfig] = useState({
-    LEFT_SHOULDER_PITCH: 5,
-    LEFT_SHOULDER_ROLL: 10,
-    LEFT_ELBOW: 50,
-    LEFT_HIP_YAW: 3,
-    LEFT_HIP_ROLL: -3,
-    LEFT_HIP_PITCH: 5,
-    LEFT_KNEE: 0,
-    LEFT_ANKLE_ROLL: -2,
-    LEFT_ANKLE_PITCH: 0,
-    RIGHT_SHOULDER_PITCH: 15,
-    RIGHT_SHOULDER_ROLL: 10,
-    RIGHT_ELBOW: 50,
-    RIGHT_HIP_YAW: 3,
-    RIGHT_HIP_ROLL: -3,
-    RIGHT_HIP_PITCH: 5,
-    RIGHT_KNEE: 0,
-    RIGHT_ANKLE_ROLL: -2,
-    RIGHT_ANKLE_PITCH: 0,
+  const [kinematic, setKinematic] = useState({
+    ratio: {
+      forward_hip_comp_ratio: 0.0,
+      dsp_comp_ratio: 0.0,
+      period_time: 810.0,
+      swing_right_left: 15.0,
+      dsp_ratio: -0.12,
+      period_comp_ratio: 0.0,
+      swing_up_down: -1.0,
+      arm_swing_gain: 0,
+      backward_hip_comp_ratio: 0.0,
+      foot_comp_ratio: 0.0,
+      foot_height: 30.0,
+      move_accel_ratio: 1.0,
+      foot_accel_ratio: 0.2,
+    },
+    offset: {
+      y_offset: 0.0,
+      roll_offset: 1.0,
+      hip_pitch_offset: 23.0,
+      pitch_offset: -0.4,
+      yaw_offset: 0.1,
+      z_offset: 25.0,
+      x_offset: 40.0,
+    },
   });
 
-  const setWalkValue = (name, value) => {
-    setWalkConfig({ ...walkConfig, [name]: value });
+  const [walking, setWalking] = useState({
+    balance: {
+      enable: false,
+      balance_knee_gain: 0.3,
+      balance_ankle_pitch_gain: 0.3,
+      balance_hip_roll_gain: 0.2,
+      balance_ankle_roll_gain: 0.2,
+    },
+    odometry: {
+      ry_coefficient: 5.0,
+      fx_coefficient: 5.85,
+      ly_coefficient: 5.0,
+    },
+    init_angles: {
+      left_shoulder_pitch: 15,
+      left_shoulder_roll: -10,
+      left_elbow: 50,
+      left_hip_yaw: 3,
+      left_hip_roll: -3,
+      left_hip_pitch: 5,
+      left_knee: 0,
+      left_ankle_roll: -2,
+      left_ankle_pitch: 0,
+      right_shoulder_pitch: 15,
+      right_shoulder_roll: -10,
+      right_elbow: 50,
+      right_hip_yaw: -3,
+      right_hip_roll: 3,
+      right_hip_pitch: 5,
+      right_knee: 0,
+      right_ankle_roll: 2,
+      right_ankle_pitch: 0,
+    },
+  });
+
+  const setMainValue = (name, value) => {
+    setMain((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const setInitValue = (name, value) => {
-    setInitConfig({ ...initConfig, [name]: value });
+  const setWalkingValue = (name, key, value) => {
+    setWalking((prevState) => ({ ...prevState, [name]: { ...prevState[name], [key]: value } }));
+  };
+
+  const setKinematicValue = (name, key, value) => {
+    setKinematic((prevState) => ({ ...prevState, [name]: { ...prevState[name], [key]: value } }));
   };
 
   return (
     <WalkContext.Provider value={{
-      initConfig, walkConfig, setInitValue, setWalkValue,
+      main,
+      walking,
+      kinematic,
+      setKinematic,
+      setMain,
+      setWalking,
+      setMainValue,
+      setWalkingValue,
+      setKinematicValue,
     }}
     >
-      <Router>
-        <Header />
-        <Routes>
-          <Route path="/" element={<Walk />} />
-          <Route path="/init" element={<Init />} />
-        </Routes>
-      </Router>
+      <LoggerProvider>
+        <BridgeProvider>
+          <BridgeConnection />
+          <SessionProvider>
+            <NodeProvider nodeName="aruku_app">
+              <Router>
+                <Header />
+                <Routes>
+                  <Route path="/" element={<Walk />} />
+                  <Route path="/init" element={<Init />} />
+                </Routes>
+              </Router>
+            </NodeProvider>
+          </SessionProvider>
+        </BridgeProvider>
+      </LoggerProvider>
     </WalkContext.Provider>
   );
 }
