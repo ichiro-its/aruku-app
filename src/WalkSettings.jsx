@@ -59,7 +59,7 @@ function WalkSettings() {
             <WalkSetConfig />
           </PublisherProvider>
         </Grid>
-        <Grid container>
+        <Grid container style={{ justifyContent: 'end' }}>
           <ClientProvider
             serviceType="aruku_interfaces/srv/SaveConfig"
             serviceName="/aruku/config/save_config"
