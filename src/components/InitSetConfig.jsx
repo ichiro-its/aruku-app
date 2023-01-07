@@ -25,7 +25,6 @@ function InitSetConfig() {
   const logger = useLogger();
 
   const [publishingConfig, handlePublishConfig] = useHandleProcess(() => {
-    console.log(walking.init_angles);
     const json_kinematic = JSON.stringify(kinematic);
     const json_walking = JSON.stringify(walking);
     return configPublisher
