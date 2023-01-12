@@ -1,11 +1,13 @@
 /* eslint-disable no-unused-vars */
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 
-import { ClientProvider, PublisherProvider } from 'kumo-app';
+import {
+  ClientProvider, PublisherProvider, useClient, useLogger, useHandleProcess,
+} from 'kumo-app';
 
 import ReloadButton from './components/ReloadButton';
 import SaveButton from './components/SaveButton';
@@ -24,11 +26,35 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 function WalkSettings() {
-  const { walking, kinematic } = useContext(WalkContext);
+  const {
+    walking, kinematic, setKinematicValue, setWalkingValue,
+  } = useContext(WalkContext);
+
+  const client = useClient();
+  const logger = useLogger();
+
+  const [fetching, handleFetch] = useHandleProcess(() => client
+    .call({})
+    .then((response) => {
+      logger.success('Successfully get config.');
+      const kinematicData = JSON.parse(`${response.json_kinematic.replace('/\\/g', '')}`);
+      const walkingData = JSON.parse(`${response.json_walking.replace('/\\/g', '')}`);
+      Object.keys(kinematicData).map((name) => Object.keys(kinematicData[name])
+        .map((key) => setKinematicValue(name, key, kinematicData[name][key])));
+      Object.keys(walkingData).map((name) => Object.keys(walkingData[name])
+        .map((key) => setWalkingValue(name, key, walkingData[name][key])));
+    })
+    .catch((err) => {
+      logger.error(`Failed to load config! ${err.message}.`);
+    }), 500);
+
+  useEffect(() => {
+    handleFetch();
+  }, []);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <Item>
+      <Item onLoad={handleFetch}>
         <Grid container spacing={1}>
           <Grid item xs={12} md={8} lg={4}>
             <Item>
@@ -59,7 +85,7 @@ function WalkSettings() {
             <WalkSetConfig />
           </PublisherProvider>
         </Grid>
-        <Grid container>
+        <Grid container style={{ justifyContent: 'end' }}>
           <ClientProvider
             serviceType="aruku_interfaces/srv/SaveConfig"
             serviceName="/aruku/config/save_config"

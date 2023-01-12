@@ -1,12 +1,12 @@
 /* eslint-disable no-unused-vars */
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 
 import {
-  ClientProvider, PublisherProvider,
+  ClientProvider, PublisherProvider, useClient, useLogger, useHandleProcess,
 } from 'kumo-app';
 
 import ReloadButton from './components/ReloadButton';
@@ -23,18 +23,42 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 function InitSettings() {
-  const { walking } = useContext(WalkContext);
+  const {
+    walking, setKinematicValue, setWalkingValue,
+  } = useContext(WalkContext);
+
+  const client = useClient();
+  const logger = useLogger();
+
+  const [fetching, handleFetch] = useHandleProcess(() => client
+    .call({})
+    .then((response) => {
+      logger.success('Successfully get config.');
+      const kinematicData = JSON.parse(`${response.json_kinematic.replace('/\\/g', '')}`);
+      const walkingData = JSON.parse(`${response.json_walking.replace('/\\/g', '')}`);
+      Object.keys(kinematicData).map((name) => Object.keys(kinematicData[name])
+        .map((key) => setKinematicValue(name, key, kinematicData[name][key])));
+      Object.keys(walkingData).map((name) => Object.keys(walkingData[name])
+        .map((key) => setWalkingValue(name, key, walkingData[name][key])));
+    })
+    .catch((err) => {
+      logger.error(`Failed to load config! ${err.message}.`);
+    }), 500);
+
+  useEffect(() => {
+    handleFetch();
+  }, []);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <Item>
+      <Item onLoad={handleFetch}>
         <PublisherProvider
           messageType="aruku_interfaces/msg/SetConfig"
           topicName="set_config"
         >
           <InitSetConfig />
         </PublisherProvider>
-        <Grid container>
+        <Grid container style={{ justifyContent: 'end' }}>
           <ClientProvider
             serviceType="aruku_interfaces/srv/SaveConfig"
             serviceName="/aruku/config/save_config"
