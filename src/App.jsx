@@ -43,6 +43,12 @@ function App() {
       z_offset: 0.0,
       x_offset: 0.0,
     },
+    length: {
+      thigh_length: 134.0,
+      calf_length: 112.0,
+      ankle_length: 34.0,
+      leg_length: 280.0,
+    },
   });
 
   const [walking, setWalking] = useState({
@@ -52,6 +58,11 @@ function App() {
       balance_ankle_pitch_gain: 0.0,
       balance_hip_roll_gain: 0.0,
       balance_ankle_roll_gain: 0.0,
+    },
+    pid: {
+      p_gain: 10,
+      i_gain: 2,
+      d_gain: 3,
     },
     odometry: {
       ry_coefficient: 0.0,
