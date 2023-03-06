@@ -54,7 +54,7 @@ function InitSettings() {
       <Item onLoad={handleFetch}>
         <PublisherProvider
           messageType="aruku_interfaces/msg/SetConfig"
-          topicName="set_config"
+          topicName="/aruku/config/set_config"
         >
           <InitSetConfig />
         </PublisherProvider>
