@@ -4,8 +4,6 @@ import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 
-import { useHandleProcess, useLogger, usePublisher } from 'kumo-app';
-
 import NumberField from './NumberField';
 import WalkContext from '../context/WalkContext';
 
@@ -19,28 +17,6 @@ const Item = styled(Paper)(({ theme }) => ({
 
 function WalkSetConfig() {
   const { walking, kinematic } = useContext(WalkContext);
-
-  const configPublisher = usePublisher();
-  const logger = useLogger();
-
-  const [publishingConfig, handlePublishConfig] = useHandleProcess(() => {
-    const json_kinematic = JSON.stringify(kinematic);
-    const json_walking = JSON.stringify(walking);
-    return configPublisher
-      .publish({
-        json_kinematic, json_walking,
-      })
-      .then(() => {
-        logger.success('Successfully publish kinematic and walking config.');
-      })
-      .catch((err) => {
-        logger.error(`Failed to publish kinematic and walking config! ${err.message}.`);
-      });
-  }, 500);
-
-  useEffect(() => {
-    handlePublishConfig();
-  }, [kinematic, walking]);
 
   return (
     <Grid container xs={12} md={10} lg={8}>
