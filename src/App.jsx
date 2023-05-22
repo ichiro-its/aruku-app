@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {
+  BridgeProvider, BridgeConnection, LoggerProvider, NodeProvider, SessionProvider, ClientProvider,
+} from 'kumo-app';
 import Header from './components/Header';
 
 import Walk from './WalkSettings';
@@ -133,13 +136,27 @@ function App() {
       setKinematicValue,
     }}
     >
-      <Router>
-        <Header />
-        <Routes>
-          <Route path="/" element={<Walk />} />
-          <Route path="/init" element={<Init />} />
-        </Routes>
-      </Router>
+      <LoggerProvider>
+        <BridgeProvider>
+          <BridgeConnection />
+          <SessionProvider>
+            <NodeProvider nodeName="aruku_app">
+              <ClientProvider
+                serviceType="aruku_interfaces/srv/GetConfig"
+                serviceName="/aruku/config/get_config"
+              >
+                <Router>
+                  <Header />
+                  <Routes>
+                    <Route path="/" element={<Walk />} />
+                    <Route path="/init" element={<Init />} />
+                  </Routes>
+                </Router>
+              </ClientProvider>
+            </NodeProvider>
+          </SessionProvider>
+        </BridgeProvider>
+      </LoggerProvider>
     </WalkContext.Provider>
   );
 }
