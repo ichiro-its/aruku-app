@@ -5,9 +5,7 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 
-import {
-  ClientProvider, PublisherProvider, useClient, useLogger, useHandleProcess,
-} from 'kumo-app';
+import ros2_ws from './proto/aruku_grpc_web_pb'
 
 import ReloadButton from './components/ReloadButton';
 import SaveButton from './components/SaveButton';
@@ -30,27 +28,29 @@ function WalkSettings() {
     walking, kinematic, setKinematicValue, setWalkingValue,
   } = useContext(WalkContext);
 
-  const client = useClient();
-  const logger = useLogger();
+  const client = new ros2_ws.GetConfigClient('http://localhost:8080', null, null);
+  const request = new ros2_ws.ConfigWalking();
 
-  const [fetching, handleFetch] = useHandleProcess(() => client
-    .call({})
-    .then((response) => {
-      logger.success('Successfully get config.');
-      const kinematicData = JSON.parse(`${response.json_kinematic.replace('/\\/g', '')}`);
-      const walkingData = JSON.parse(`${response.json_walking.replace('/\\/g', '')}`);
-      Object.keys(kinematicData).map((name) => Object.keys(kinematicData[name])
-        .map((key) => setKinematicValue(name, key, kinematicData[name][key])));
-      Object.keys(walkingData).map((name) => Object.keys(walkingData[name])
-        .map((key) => setWalkingValue(name, key, walkingData[name][key])));
-    })
-    .catch((err) => {
-      logger.error(`Failed to load config! ${err.message}.`);
-    }), 500);
+  const handleFetch = () => {
+    client.getConfig(request, {}, (err, response) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(response.getMessage());
+        const data = response.getMessage();
+        const kinematicData = JSON.parse(`${data.json_kinematic.replace('/\\/g', '')}`);
+        const walkingData = JSON.parse(`${data.json_walking.replace('/\\/g', '')}`);
+        Object.keys(kinematicData).map((name) => Object.keys(kinematicData[name])
+          .map((key) => setKinematicValue(name, key, kinematicData[name][key])));
+        Object.keys(walkingData).map((name) => Object.keys(walkingData[name])
+          .map((key) => setWalkingValue(name, key, walkingData[name][key])));
+      }
+    });
+  }
 
   useEffect(() => {
     handleFetch();
-  }, []);
+  })
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -58,12 +58,7 @@ function WalkSettings() {
         <Grid container spacing={1}>
           <Grid item xs={12} md={8} lg={4}>
             <Item>
-              <PublisherProvider
-                messageType="aruku_interfaces/msg/SetWalking"
-                topicName="/walking/set_walking"
-              >
-                <WalkSetWalking />
-              </PublisherProvider>
+              <WalkSetWalking />
               {Object.keys(walking.balance)
                 .map((key) => {
                   if (typeof walking.balance[key] === 'boolean') {
@@ -78,26 +73,11 @@ function WalkSettings() {
               <NumberField name="ratio" keys="forward_hip_comp_ratio" value={kinematic.ratio.forward_hip_comp_ratio} type="kinematic" />
             </Item>
           </Grid>
-          <PublisherProvider
-            messageType="aruku_interfaces/msg/SetConfig"
-            topicName="/aruku/config/set_config"
-          >
-            <WalkSetConfig />
-          </PublisherProvider>
+          <WalkSetConfig />
         </Grid>
         <Grid container style={{ justifyContent: 'end' }}>
-          <ClientProvider
-            serviceType="aruku_interfaces/srv/SaveConfig"
-            serviceName="/aruku/config/save_config"
-          >
-            <SaveButton />
-          </ClientProvider>
-          <ClientProvider
-            serviceType="aruku_interfaces/srv/GetConfig"
-            serviceName="/aruku/config/get_config"
-          >
-            <ReloadButton />
-          </ClientProvider>
+          <SaveButton />
+          <ReloadButton />
         </Grid>
       </Item>
     </Box>

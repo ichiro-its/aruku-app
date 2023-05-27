@@ -3,7 +3,7 @@ import React, { useContext, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 
-import { useHandleProcess, useLogger, usePublisher } from 'kumo-app';
+import ros2_ws from '../proto/aruku_grpc_web_pb'
 
 import NumberField from './NumberField';
 import SwitchActive from './SwitchActive';
@@ -20,29 +20,48 @@ const Item = styled(Paper)(({ theme }) => ({
 function WalkSetWalking() {
   const { main } = useContext(WalkContext);
 
-  const walkConfigPublisher = usePublisher();
-  const logger = useLogger();
+  const client = new ros2_ws.SetConfigClient('http://localhost:8080', null, null);
+  const request = new ros2_ws.ConfigWalking();
 
-  const [publishingWalking, handlePublishWalking] = useHandleProcess(() => {
+  const handleSetWalking = () => {
     const run = main.start;
     const x_move = main.x;
     const y_move = main.y;
     const a_move = main.a;
     const aim_on = main.aim;
-    return walkConfigPublisher
-      .publish({
-        run, x_move, y_move, a_move, aim_on,
-      })
-      .then(() => {
-        logger.success('Successfully publish main config.');
-      })
-      .catch((err) => {
-        logger.error(`Failed to publish main config! ${err.message}.`);
-      });
-  }, 500);
+    request.setJsonWalking(JSON.stringify({
+      run, x_move, y_move, a_move, aim_on,
+    }));
+    client.setConfig(request, {}, (err, response) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(response.getMessage());
+      }
+    });
+  }
+
+  // const [publishingWalking, handlePublishWalking] = useHandleProcess(() => {
+  //   const run = main.start;
+  //   const x_move = main.x;
+  //   const y_move = main.y;
+  //   const a_move = main.a;
+  //   const aim_on = main.aim;
+  //   return walkConfigPublisher
+  //     .publish({
+  //       run, x_move, y_move, a_move, aim_on,
+  //     })
+  //     .then(() => {
+  //       logger.success('Successfully publish main config.');
+  //     })
+  //     .catch((err) => {
+  //       logger.error(`Failed to publish main config! ${err.message}.`);
+  //     });
+  // }, 500);
 
   useEffect(() => {
-    handlePublishWalking();
+    // handlePublishWalking();
+    handleSetWalking();
   }, [main]);
 
   return (

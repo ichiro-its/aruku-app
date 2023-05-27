@@ -1,40 +1,39 @@
 import React, { useContext } from 'react';
 import { Button, CircularProgress } from '@mui/material';
 
-import { useClient, useHandleProcess, useLogger } from 'kumo-app';
-
 import WalkContext from '../context/WalkContext';
+import ros2_ws from '../proto/aruku_grpc_web_pb';
 
 function SaveButton() {
   const { kinematic, walking } = useContext(WalkContext);
 
-  const client = useClient();
-  const logger = useLogger();
+  const client = new ros2_ws.SaveConfigClient('http://localhost:8080', null, null);
+  const request = new ros2_ws.SetWalking();
 
-  const [saving, handleSave] = useHandleProcess(() => {
-    const json_kinematic = JSON.stringify(kinematic);
-    const json_walking = JSON.stringify(walking);
-    return client
-      .call({ json_kinematic, json_walking })
-      .then((response) => {
-        logger.success(
-          `Successfully save config with status ${response.status}.`,
-        );
-      })
-      .catch((err) => {
-        logger.error(`Failed to save config! ${err.message}.`);
-      });
-  }, 500);
+  const handleSave = () => {
+    const kinematicData = JSON.stringify(kinematic);
+    const walkingData = JSON.stringify(walking);
+    request.setJsonKinematic(kinematicData);
+    request.setJsonWalking(walkingData);
+    client.saveConfig(request, {}, (err, response) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(response.getMessage());
+      }
+    });
+  };
 
   return (
     <Button
       onClick={handleSave}
-      disabled={client == null || saving}
+      // disabled={client == null || saving}
       color="primary"
       variant="contained"
       sx={{ margin: 1, top: 5 }}
     >
-      {saving ? <CircularProgress size={24} /> : 'Save'}
+      {/* {saving ? <CircularProgress size={24} /> : 'Save'} */}
+      Save
     </Button>
   );
 }
