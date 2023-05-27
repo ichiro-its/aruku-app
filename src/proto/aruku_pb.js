@@ -1067,4 +1067,4 @@ proto.ros2_ws.aruku.proto.Status.prototype.hasOdometry = function() {
 };
 
 
-export default proto.ros2_ws.aruku.proto;
+goog.object.extend(exports, proto.ros2_ws.aruku.proto);

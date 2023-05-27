@@ -10,6 +10,10 @@ service SaveConfig {
   rpc SaveConfig (ConfigWalking) returns (Empty) {}
 }
 
+service SetConfig {
+  rpc SetConfig (SetWalking) returns (Empty) {}
+}
+
 message Empty {}
 
 message Point2 {

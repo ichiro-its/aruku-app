@@ -250,5 +250,118 @@ proto.ros2_ws.aruku.proto.SaveConfigPromiseClient.prototype.saveConfig =
 };
 
 
-export default proto.ros2_ws.aruku.proto;
+/**
+ * @param {string} hostname
+ * @param {?Object} credentials
+ * @param {?grpc.web.ClientOptions} options
+ * @constructor
+ * @struct
+ * @final
+ */
+proto.ros2_ws.aruku.proto.SetConfigClient =
+    function(hostname, credentials, options) {
+  if (!options) options = {};
+  options.format = 'text';
+
+  /**
+   * @private @const {!grpc.web.GrpcWebClientBase} The client
+   */
+  this.client_ = new grpc.web.GrpcWebClientBase(options);
+
+  /**
+   * @private @const {string} The hostname
+   */
+  this.hostname_ = hostname.replace(/\/+$/, '');
+
+};
+
+
+/**
+ * @param {string} hostname
+ * @param {?Object} credentials
+ * @param {?grpc.web.ClientOptions} options
+ * @constructor
+ * @struct
+ * @final
+ */
+proto.ros2_ws.aruku.proto.SetConfigPromiseClient =
+    function(hostname, credentials, options) {
+  if (!options) options = {};
+  options.format = 'text';
+
+  /**
+   * @private @const {!grpc.web.GrpcWebClientBase} The client
+   */
+  this.client_ = new grpc.web.GrpcWebClientBase(options);
+
+  /**
+   * @private @const {string} The hostname
+   */
+  this.hostname_ = hostname.replace(/\/+$/, '');
+
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.ros2_ws.aruku.proto.SetWalking,
+ *   !proto.ros2_ws.aruku.proto.Empty>}
+ */
+const methodDescriptor_SetConfig_SetConfig = new grpc.web.MethodDescriptor(
+  '/ros2_ws.aruku.proto.SetConfig/SetConfig',
+  grpc.web.MethodType.UNARY,
+  proto.ros2_ws.aruku.proto.SetWalking,
+  proto.ros2_ws.aruku.proto.Empty,
+  /**
+   * @param {!proto.ros2_ws.aruku.proto.SetWalking} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.ros2_ws.aruku.proto.Empty.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.ros2_ws.aruku.proto.SetWalking} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.RpcError, ?proto.ros2_ws.aruku.proto.Empty)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.ros2_ws.aruku.proto.Empty>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.ros2_ws.aruku.proto.SetConfigClient.prototype.setConfig =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/ros2_ws.aruku.proto.SetConfig/SetConfig',
+      request,
+      metadata || {},
+      methodDescriptor_SetConfig_SetConfig,
+      callback);
+};
+
+
+/**
+ * @param {!proto.ros2_ws.aruku.proto.SetWalking} request The
+ *     request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.ros2_ws.aruku.proto.Empty>}
+ *     Promise that resolves to the response
+ */
+proto.ros2_ws.aruku.proto.SetConfigPromiseClient.prototype.setConfig =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/ros2_ws.aruku.proto.SetConfig/SetConfig',
+      request,
+      metadata || {},
+      methodDescriptor_SetConfig_SetConfig);
+};
+
+
+module.exports = proto.ros2_ws.aruku.proto;
 
