@@ -34,7 +34,7 @@ function ReloadButton() {
   }
 
   useEffect(() => {
-    handleFetch();
+    handleReload();
   })
 
   return (
