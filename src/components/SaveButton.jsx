@@ -2,13 +2,13 @@ import React, { useContext } from 'react';
 import { Button, CircularProgress } from '@mui/material';
 
 import WalkContext from '../context/WalkContext';
-import ros2_ws from '../proto/aruku_grpc_web_pb';
+import aruku_app from '../proto/aruku_grpc_web_pb';
 
 function SaveButton() {
   const { kinematic, walking } = useContext(WalkContext);
 
-  const client = new ros2_ws.SaveConfigClient('http://localhost:8080', null, null);
-  const request = new ros2_ws.SetWalking();
+  const client = new aruku_app.SaveConfigClient('http://localhost:8080', null, null);
+  const request = new aruku_app.SetWalking();
 
   const handleSave = () => {
     const kinematicData = JSON.stringify(kinematic);
@@ -17,7 +17,8 @@ function SaveButton() {
     request.setJsonWalking(walkingData);
     client.saveConfig(request, {}, (err, response) => {
       if (err) {
-        console.log(err);
+        console.log(`Unexpected error: code = ${err.code}` +
+                    `, message = "${err.message}"`);
       } else {
         console.log(response.getMessage());
       }
