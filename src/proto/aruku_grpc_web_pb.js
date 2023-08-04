@@ -248,5 +248,118 @@ proto.aruku_app.SaveConfigPromiseClient.prototype.saveConfig =
 };
 
 
+/**
+ * @param {string} hostname
+ * @param {?Object} credentials
+ * @param {?grpc.web.ClientOptions} options
+ * @constructor
+ * @struct
+ * @final
+ */
+proto.aruku_app.SetMainConfigClient =
+    function(hostname, credentials, options) {
+  if (!options) options = {};
+  options.format = 'text';
+
+  /**
+   * @private @const {!grpc.web.GrpcWebClientBase} The client
+   */
+  this.client_ = new grpc.web.GrpcWebClientBase(options);
+
+  /**
+   * @private @const {string} The hostname
+   */
+  this.hostname_ = hostname.replace(/\/+$/, '');
+
+};
+
+
+/**
+ * @param {string} hostname
+ * @param {?Object} credentials
+ * @param {?grpc.web.ClientOptions} options
+ * @constructor
+ * @struct
+ * @final
+ */
+proto.aruku_app.SetMainConfigPromiseClient =
+    function(hostname, credentials, options) {
+  if (!options) options = {};
+  options.format = 'text';
+
+  /**
+   * @private @const {!grpc.web.GrpcWebClientBase} The client
+   */
+  this.client_ = new grpc.web.GrpcWebClientBase(options);
+
+  /**
+   * @private @const {string} The hostname
+   */
+  this.hostname_ = hostname.replace(/\/+$/, '');
+
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.aruku_app.MainConfig,
+ *   !proto.aruku_app.Empty>}
+ */
+const methodDescriptor_SetMainConfig_UpdateMainConfig = new grpc.web.MethodDescriptor(
+  '/aruku_app.SetMainConfig/UpdateMainConfig',
+  grpc.web.MethodType.UNARY,
+  proto.aruku_app.MainConfig,
+  proto.aruku_app.Empty,
+  /**
+   * @param {!proto.aruku_app.MainConfig} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.aruku_app.Empty.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.aruku_app.MainConfig} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.RpcError, ?proto.aruku_app.Empty)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.aruku_app.Empty>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.aruku_app.SetMainConfigClient.prototype.updateMainConfig =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/aruku_app.SetMainConfig/UpdateMainConfig',
+      request,
+      metadata || {},
+      methodDescriptor_SetMainConfig_UpdateMainConfig,
+      callback);
+};
+
+
+/**
+ * @param {!proto.aruku_app.MainConfig} request The
+ *     request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.aruku_app.Empty>}
+ *     Promise that resolves to the response
+ */
+proto.aruku_app.SetMainConfigPromiseClient.prototype.updateMainConfig =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/aruku_app.SetMainConfig/UpdateMainConfig',
+      request,
+      metadata || {},
+      methodDescriptor_SetMainConfig_UpdateMainConfig);
+};
+
+
 export default proto.aruku_app;
 

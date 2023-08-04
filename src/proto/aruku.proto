@@ -10,19 +10,23 @@ service SaveConfig {
   rpc SaveConfig (ConfigWalking) returns (Empty) {}
 }
 
+service SetMainConfig {
+  rpc UpdateMainConfig (MainConfig) returns (Empty) {}
+}
+
 message Empty {}
 
-message Point2 {
-  double x = 1;
-  double y = 2;
-}
+// message Point2 {
+//   double x = 1;
+//   double y = 2;
+// }
 
 message ConfigWalking {
   string json_kinematic = 1;
   string json_walking = 2;
 }
 
-message SetWalking {
+message MainConfig {
     bool run = 1;
     double x_move = 2;
     double y_move = 3;
@@ -30,11 +34,13 @@ message SetWalking {
     bool aim_on = 5;
 }
 
-message Status {
-    bool is_running = 1;
-    double x_amplitude = 2;
-    double y_amplitude = 3;
-    double a_amplitude  = 4;
-    Point2 odometry = 5;
-}
 
+
+
+// message Status {
+//     bool is_running = 1;
+//     double x_amplitude = 2;
+//     double y_amplitude = 3;
+//     double a_amplitude  = 4;
+//     Point2 odometry = 5;
+// }

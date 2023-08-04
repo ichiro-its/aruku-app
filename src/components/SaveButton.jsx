@@ -8,7 +8,7 @@ function SaveButton() {
   const { kinematic, walking } = useContext(WalkContext);
 
   const client = new aruku_app.SaveConfigClient('http://localhost:8080', null, null);
-  const request = new aruku_app.SetWalking();
+  const request = new aruku_app.ConfigWalking();
 
   const handleSave = () => {
     const kinematicData = JSON.stringify(kinematic);

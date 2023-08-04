@@ -3,7 +3,7 @@ import React, { useContext, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 
-import ros2_ws from '../proto/aruku_grpc_web_pb'
+import aruku_app from '../proto/aruku_grpc_web_pb'
 
 import NumberField from './NumberField';
 import SwitchActive from './SwitchActive';
@@ -20,21 +20,20 @@ const Item = styled(Paper)(({ theme }) => ({
 function WalkSetWalking() {
   const { main } = useContext(WalkContext);
 
-  const client = new ros2_ws.SetConfigClient('http://localhost:8080', null, null);
-  const request = new ros2_ws.ConfigWalking();
+  const client = new aruku_app.SetMainConfigClient('http://localhost:8080', null, null);
+  const request = new aruku_app.MainConfig();
 
   const handleSetWalking = () => {
-    const run = main.start;
-    const x_move = main.x;
-    const y_move = main.y;
-    const a_move = main.a;
-    const aim_on = main.aim;
-    request.setJsonWalking(JSON.stringify({
-      run, x_move, y_move, a_move, aim_on,
-    }));
-    client.setConfig(request, {}, (err, response) => {
+    request.setRun(main.start);
+    request.setXMove(main.x);
+    request.setYMove(main.y);
+    request.setAMove(main.a);
+    request.setAimOn(main.aim);
+
+    client.updateMainConfig(request, {}, (err, response) => {
       if (err) {
-        console.log(err);
+        console.log(`Unexpected error: code = ${err.code}` +
+                    `, message = "${err.message}"`);
       } else {
         console.log(response.getMessage());
       }
