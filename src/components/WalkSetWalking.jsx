@@ -3,7 +3,7 @@ import React, { useContext, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 
-import aruku_app from '../proto/aruku_grpc_web_pb'
+import aruku_interfaces from '../proto/aruku_grpc_web_pb'
 
 import NumberField from './NumberField';
 import SwitchActive from './SwitchActive';
@@ -20,8 +20,8 @@ const Item = styled(Paper)(({ theme }) => ({
 function WalkSetWalking() {
   const { main } = useContext(WalkContext);
 
-  const client = new aruku_app.SetMainConfigClient('http://localhost:8080', null, null);
-  const request = new aruku_app.MainConfig();
+  const client = new aruku_interfaces.ConfigClient('http://localhost:8080', null, null);
+  const request = new aruku_interfaces.SetWalking();
 
   const handleSetWalking = () => {
     request.setRun(main.start);
@@ -30,7 +30,7 @@ function WalkSetWalking() {
     request.setAMove(main.a);
     request.setAimOn(main.aim);
 
-    client.updateMainConfig(request, {}, (err, response) => {
+    client.setMainConfig(request, {}, (err, response) => {
       if (err) {
         console.log(`Unexpected error: code = ${err.code}` +
                     `, message = "${err.message}"`);

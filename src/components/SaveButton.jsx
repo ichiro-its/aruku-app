@@ -2,13 +2,13 @@ import React, { useContext } from 'react';
 import { Button, CircularProgress } from '@mui/material';
 
 import WalkContext from '../context/WalkContext';
-import aruku_app from '../proto/aruku_grpc_web_pb';
+import aruku_interfaces from '../proto/aruku_grpc_web_pb';
 
 function SaveButton() {
   const { kinematic, walking } = useContext(WalkContext);
 
-  const client = new aruku_app.SaveConfigClient('http://localhost:8080', null, null);
-  const request = new aruku_app.ConfigWalking();
+  const client = new aruku_interfaces.ConfigClient('http://localhost:8080', null, null);
+  const request = new aruku_interfaces.ConfigWalking();
 
   const handleSave = () => {
     const kinematicData = JSON.stringify(kinematic);

@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 import { Button, CircularProgress } from '@mui/material';
 
-import aruku_app from '../proto/aruku_grpc_web_pb';
+import aruku_interfaces from '../proto/aruku_grpc_web_pb';
 
 import WalkContext from '../context/WalkContext';
 
@@ -12,8 +12,8 @@ function ReloadButton() {
     setKinematicValue, setWalkingValue,
   } = useContext(WalkContext);
 
-  const client = new aruku_app.GetConfigClient('http://localhost:8080', null, null);
-  const request = new aruku_app.Empty();
+  const client = new aruku_interfaces.ConfigClient('http://localhost:8080', null, null);
+  const request = new aruku_interfaces.Empty();
 
   const handleReload = () => {
     client.getConfig(request, {}, (err, response) => {

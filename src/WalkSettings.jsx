@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 
-import aruku_app from './proto/aruku_grpc_web_pb'
+import aruku_interfaces from './proto/aruku_grpc_web_pb'
 
 import ReloadButton from './components/ReloadButton';
 import SaveButton from './components/SaveButton';
@@ -28,8 +28,8 @@ function WalkSettings() {
     walking, kinematic, setKinematicValue, setWalkingValue,
   } = useContext(WalkContext);
 
-  const client = new aruku_app.GetConfigClient('http://localhost:8080', null, null);
-  const request = new aruku_app.Empty();
+  const client = new aruku_interfaces.ConfigClient('http://localhost:8080', null, null);
+  const request = new aruku_interfaces.Empty();
 
   const handleFetch = () => {
     client.getConfig(request, {}, (err, response) => {
