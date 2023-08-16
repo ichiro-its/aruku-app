@@ -17,7 +17,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 function InitSetConfig() {
-  const { walking, kinematic } = useContext(WalkContext);
+  const { walking } = useContext(WalkContext);
 
   return (
     <Grid container spacing={2}>

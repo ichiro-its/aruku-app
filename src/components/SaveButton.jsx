@@ -5,9 +5,9 @@ import WalkContext from '../context/WalkContext';
 import aruku_interfaces from '../proto/aruku_grpc_web_pb';
 
 function SaveButton() {
-  const { kinematic, walking } = useContext(WalkContext);
+  const { grpc_web_address, kinematic, walking } = useContext(WalkContext);
 
-  const client = new aruku_interfaces.ConfigClient('http://localhost:8080', null, null);
+  const client = new aruku_interfaces.ConfigClient(grpc_web_address, null, null);
   const request = new aruku_interfaces.ConfigWalking();
 
   const handleSave = () => {
@@ -20,7 +20,7 @@ function SaveButton() {
         console.log(`Unexpected error: code = ${err.code}` +
                     `, message = "${err.message}"`);
       } else {
-        console.log(response.getMessage());
+        console.log(response);
       }
     });
   };

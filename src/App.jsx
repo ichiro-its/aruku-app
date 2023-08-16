@@ -7,6 +7,8 @@ import Init from './InitSettings';
 import WalkContext from './context/WalkContext';
 
 function App() {
+  const grpc_web_address = 'http://192.168.1.4:8080';
+
   const [main, setMain] = useState({
     start: false,
     x: 0.0,
@@ -122,6 +124,7 @@ function App() {
 
   return (
     <WalkContext.Provider value={{
+      grpc_web_address,
       main,
       walking,
       kinematic,
@@ -136,8 +139,8 @@ function App() {
       <Router>
         <Header />
         <Routes>
-          <Route path="/" element={<Walk />} />
-          <Route path="/init" element={<Init />} />
+          <Route path="/" element={<Init />} />
+          {/* <Route path="/init" element={<Init />} /> */}
         </Routes>
       </Router>
     </WalkContext.Provider>

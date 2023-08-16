@@ -18,9 +18,9 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 function WalkSetWalking() {
-  const { main } = useContext(WalkContext);
+  const { grpc_web_address, main } = useContext(WalkContext);
 
-  const client = new aruku_interfaces.ConfigClient('http://localhost:8080', null, null);
+  const client = new aruku_interfaces.ConfigClient(grpc_web_address, null, null);
   const request = new aruku_interfaces.SetWalking();
 
   const handleSetWalking = () => {
@@ -35,7 +35,7 @@ function WalkSetWalking() {
         console.log(`Unexpected error: code = ${err.code}` +
                     `, message = "${err.message}"`);
       } else {
-        console.log(response.getMessage());
+        console.log(response);
       }
     });
   }
