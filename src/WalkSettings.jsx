@@ -64,7 +64,7 @@ function WalkSettings() {
                 .map((key) => {
                   if (typeof walking.balance[key] === 'boolean') {
                     return (
-                      <SwitchActive name={key} value={walking.balance[key]} type="walking" />
+                      <SwitchActive name={key} value={walking.balance[key]} type="walking" handleChange={handleFetch}/>
                     );
                   }
                   return (
