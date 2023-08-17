@@ -8,19 +8,19 @@ function SaveButton() {
   const { grpc_web_address, kinematic, walking } = useContext(WalkContext);
 
   const client = new aruku_interfaces.ConfigClient(grpc_web_address, null, null);
-  const request = new aruku_interfaces.ConfigWalking();
+  const message = new aruku_interfaces.ConfigWalking();
 
   const handleSave = () => {
-    const kinematicData = JSON.stringify(kinematic);
-    const walkingData = JSON.stringify(walking);
-    request.setJsonKinematic(kinematicData);
-    request.setJsonWalking(walkingData);
-    client.saveConfig(request, {}, (err, response) => {
+    message.setJsonKinematic( JSON.stringify(kinematic));
+    message.setJsonWalking(JSON.stringify(walking));
+
+    client.saveConfig(message, {}, (err, response) => {
       if (err) {
         console.log(`Unexpected error: code = ${err.code}` +
                     `, message = "${err.message}"`);
       } else {
         console.log(response);
+        setPublished(false);
       }
     });
   };
