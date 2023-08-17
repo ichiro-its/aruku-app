@@ -18,9 +18,6 @@ function SaveButton() {
       if (err) {
         console.log(`Unexpected error: code = ${err.code}` +
                     `, message = "${err.message}"`);
-      } else {
-        console.log(response);
-        setPublished(false);
       }
     });
   };
@@ -28,12 +25,10 @@ function SaveButton() {
   return (
     <Button
       onClick={handleSave}
-      // disabled={client == null || saving}
       color="primary"
       variant="contained"
       sx={{ margin: 1, top: 5 }}
     >
-      {/* {saving ? <CircularProgress size={24} /> : 'Save'} */}
       Save
     </Button>
   );

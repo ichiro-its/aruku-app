@@ -9,7 +9,7 @@ import WalkContext from '../context/WalkContext';
 
 function ReloadButton() {
   const {
-    grpc_web_address, setPublished, setKinematicValue, setWalkingValue,
+    grpc_web_address, setKinematic, setWalking
   } = useContext(WalkContext);
 
   const client = new aruku_interfaces.ConfigClient(grpc_web_address, null, null);
@@ -21,13 +21,8 @@ function ReloadButton() {
         console.log(`Unexpected error: code = ${err.code}` +
                     `, message = "${err.message}"`);;
       } else {
-        const kinematicData = JSON.parse(response.array[0]);
-        const walkingData = JSON.parse(response.array[1]);
-        Object.keys(kinematicData).map((name) => Object.keys(kinematicData[name])
-          .map((key) => setKinematicValue(name, key, kinematicData[name][key])));
-        Object.keys(walkingData).map((name) => Object.keys(walkingData[name])
-          .map((key) => setWalkingValue(name, key, walkingData[name][key])));
-        setPublished(false);
+        setKinematic(JSON.parse(response.array[0]));
+        setWalking(JSON.parse(response.array[1]));
       }
     });
   }

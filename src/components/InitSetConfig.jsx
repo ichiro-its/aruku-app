@@ -19,21 +19,19 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 function InitSetConfig() {
-  const { grpc_web_address, walking, setPublished } = useContext(WalkContext);
+  const { grpc_web_address, kinematic, walking } = useContext(WalkContext);
 
   const handlePublish = () => {
     const client = new aruku_interfaces.ConfigClient(grpc_web_address, null, null);
     const message = new aruku_interfaces.ConfigWalking();
 
+    message.setJsonKinematic(JSON.stringify(kinematic));
     message.setJsonWalking(JSON.stringify(walking));
 
     client.publishConfig(message, {}, (err, response) => {
       if (err) {
         console.log(`Unexpected error: code = ${err.code}` +
         `, message = "${err.message}"`);
-      } else {
-        console.log(response);
-        setPublished(true);
       }
     });
   }

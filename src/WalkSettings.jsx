@@ -25,7 +25,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 function WalkSettings() {
   const {
-    grpc_web_address, walking, kinematic, published, setPublished, setKinematicValue, setWalkingValue,
+    grpc_web_address, walking, kinematic, setKinematic, setWalking,
   } = useContext(WalkContext);
 
   const client = new aruku_interfaces.ConfigClient(grpc_web_address, null, null);
@@ -37,21 +37,14 @@ function WalkSettings() {
         console.log(`Unexpected error: code = ${err.code}` +
                     `, message = "${err.message}"`);
       } else {
-        const kinematicData = JSON.parse(response.array[0]);
-        const walkingData = JSON.parse(response.array[1]);
-        Object.keys(kinematicData).map((name) => Object.keys(kinematicData[name])
-          .map((key) => setKinematicValue(name, key, kinematicData[name][key])));
-        Object.keys(walkingData).map((name) => Object.keys(walkingData[name])
-          .map((key) => setWalkingValue(name, key, walkingData[name][key])));
+        setKinematic(JSON.parse(response.array[0]));
+        setWalking(JSON.parse(response.array[1]));
       }
     });
   }
 
   useEffect(() => {
-    if (!published) {
-      handleFetch();
-      setPublished(true);
-    }
+    handleFetch();
   }, [])
 
   return (

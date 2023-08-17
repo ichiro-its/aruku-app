@@ -18,7 +18,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 function WalkSetConfig() {
-  const { grpc_web_address, walking, kinematic, setPublished } = useContext(WalkContext);
+  const { grpc_web_address, walking, kinematic } = useContext(WalkContext);
 
   const handlePublish = () => {
     const client = new aruku_interfaces.ConfigClient(grpc_web_address, null, null);
@@ -33,7 +33,6 @@ function WalkSetConfig() {
         `, message = "${err.message}"`);
       } else {
         console.log(response);
-        setPublished(true);
       }
     });
   }

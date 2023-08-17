@@ -50,6 +50,7 @@ function SwitchState({ name, value, type, handleChange }) {
             }
               : (event) => {
                 setWalkingValue('balance', name, event.target.checked);
+                handleChange();
               }}
             checked={value}
           />
