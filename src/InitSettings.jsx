@@ -4,7 +4,6 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import isEqual from 'lodash/isEqual';
 
 import aruku_interfaces from './proto/aruku_grpc_web_pb';
 
@@ -57,10 +56,10 @@ function InitSettings() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <InitSetConfig />
-      {/* <Grid container style={{ justifyContent: 'end' }}>
+      <Grid container style={{ justifyContent: 'end' }}>
         <SaveButton />
         <ReloadButton />
-      </Grid> */}
+      </Grid>
     </Box>
   );
 }

@@ -143,8 +143,8 @@ function App() {
       <Router>
         <Header />
         <Routes>
-          <Route path="/" element={<Init />} />
-          {/* <Route path="/init" element={<Init />} /> */}
+          <Route path="/" element={<Walk/>} />
+          <Route path="/init" element={<Init />} />
         </Routes>
       </Router>
     </WalkContext.Provider>
