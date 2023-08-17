@@ -21,16 +21,16 @@ function WalkSetWalking() {
   const { grpc_web_address, main } = useContext(WalkContext);
 
   const client = new aruku_interfaces.ConfigClient(grpc_web_address, null, null);
-  const request = new aruku_interfaces.SetWalking();
+  const message = new aruku_interfaces.SetWalking();
 
   const handleSetWalking = () => {
-    request.setRun(main.start);
-    request.setXMove(main.x);
-    request.setYMove(main.y);
-    request.setAMove(main.a);
-    request.setAimOn(main.aim);
+    message.setRun(main.start);
+    message.setXMove(main.x);
+    message.setYMove(main.y);
+    message.setAMove(main.a);
+    message.setAimOn(main.aim);
 
-    client.setMainConfig(request, {}, (err, response) => {
+    client.setMainConfig(message, {}, (err, response) => {
       if (err) {
         console.log(`Unexpected error: code = ${err.code}` +
                     `, message = "${err.message}"`);
@@ -40,26 +40,7 @@ function WalkSetWalking() {
     });
   }
 
-  // const [publishingWalking, handlePublishWalking] = useHandleProcess(() => {
-  //   const run = main.start;
-  //   const x_move = main.x;
-  //   const y_move = main.y;
-  //   const a_move = main.a;
-  //   const aim_on = main.aim;
-  //   return walkConfigPublisher
-  //     .publish({
-  //       run, x_move, y_move, a_move, aim_on,
-  //     })
-  //     .then(() => {
-  //       logger.success('Successfully publish main config.');
-  //     })
-  //     .catch((err) => {
-  //       logger.error(`Failed to publish main config! ${err.message}.`);
-  //     });
-  // }, 500);
-
   useEffect(() => {
-    // handlePublishWalking();
     handleSetWalking();
   }, [main]);
 
