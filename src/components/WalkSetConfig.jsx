@@ -16,7 +16,29 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 function WalkSetConfig() {
-  const { walking, kinematic } = useContext(WalkContext);
+  const { walking, kinematic, setPublished } = useContext(WalkContext);
+
+  const handlePublish = () => {
+    const client = new aruku_interfaces.ConfigClient(grpc_web_address, null, null);
+    const message = new aruku_interfaces.ConfigWalking();
+
+    message.setJsonKinematic(JSON.stringify(kinematic));
+    message.setJsonWalking(JSON.stringify(walking));
+
+    client.publishConfig(message, {}, (err, response) => {
+      if (err) {
+        console.log(`Unexpected error: code = ${err.code}` +
+        `, message = "${err.message}"`);
+      } else {
+        console.log(response);
+        setPublished(true);
+      }
+    });
+  }
+
+  useEffect(() => {
+    handlePublish();
+  }, [walking, kinematic])
 
   return (
     <Grid container xs={12} md={10} lg={8}>

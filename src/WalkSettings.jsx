@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 
-import aruku_interfaces from './proto/aruku_grpc_web_pb'
+import aruku_interfaces from './proto/aruku_grpc_web_pb';
 
 import ReloadButton from './components/ReloadButton';
 import SaveButton from './components/SaveButton';
@@ -25,7 +25,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 function WalkSettings() {
   const {
-    grpc_web_address, walking, kinematic, setKinematicValue, setWalkingValue,
+    grpc_web_address, walking, kinematic, published, setKinematicValue, setWalkingValue,
   } = useContext(WalkContext);
 
   const client = new aruku_interfaces.ConfigClient(grpc_web_address, null, null);
@@ -48,7 +48,9 @@ function WalkSettings() {
   }
 
   useEffect(() => {
-    handleFetch();
+    if (!published) {
+      handleFetch();
+    }
   }, [])
 
   return (

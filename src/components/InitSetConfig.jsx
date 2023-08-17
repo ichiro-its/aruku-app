@@ -5,6 +5,8 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
+import aruku_interfaces from './proto/aruku_grpc_web_pb';
+
 import NumberField from './NumberField';
 import WalkContext from '../context/WalkContext';
 
@@ -17,7 +19,28 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 function InitSetConfig() {
-  const { walking } = useContext(WalkContext);
+  const { grpc_web_address, walking, setPublished } = useContext(WalkContext);
+
+  const handlePublish = () => {
+    const client = new aruku_interfaces.ConfigClient(grpc_web_address, null, null);
+    const message = new aruku_interfaces.ConfigWalking();
+
+    message.setJsonWalking(JSON.stringify(walking));
+
+    client.publishConfig(message, {}, (err, response) => {
+      if (err) {
+        console.log(`Unexpected error: code = ${err.code}` +
+        `, message = "${err.message}"`);
+      } else {
+        console.log(response);
+        setPublished(true);
+      }
+    });
+  }
+
+  useEffect(() => {
+    handlePublish();
+  }, [walking])
 
   return (
     <Grid container spacing={2}>
