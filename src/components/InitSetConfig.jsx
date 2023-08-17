@@ -5,7 +5,7 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
-import aruku_interfaces from './proto/aruku_grpc_web_pb';
+import aruku_interfaces from '../proto/aruku_grpc_web_pb'
 
 import NumberField from './NumberField';
 import WalkContext from '../context/WalkContext';

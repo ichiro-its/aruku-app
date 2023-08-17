@@ -22,15 +22,13 @@ const Item = styled(Paper)(({ theme }) => ({
 
 function InitSettings() {
   const {
-    grpc_web_address, published, setKinematicValue, setWalkingValue,
+    grpc_web_address, published, setPublished, setKinematicValue, setWalkingValue,
   } = useContext(WalkContext);
 
   const client = new aruku_interfaces.ConfigClient(grpc_web_address, null, null);
   const request = new aruku_interfaces.Empty();
 
   const handleFetch = () => {
-
-    
     client.getConfig(request, {}, (err, response) => {
       if (err) {
         console.log(`Unexpected error: code = ${err.code}` +
@@ -42,7 +40,6 @@ function InitSettings() {
           .map((key) => setKinematicValue(name, key, kinematicData[name][key])));
         Object.keys(walkingData).map((name) => Object.keys(walkingData[name])
           .map((key) => setWalkingValue(name, key, walkingData[name][key])));
-        savePrevData();
       }
     });
   }
@@ -50,6 +47,7 @@ function InitSettings() {
   useEffect(() => {
     if (!published) {
       handleFetch();
+      setPublished(true);
     }
   }, [])
 

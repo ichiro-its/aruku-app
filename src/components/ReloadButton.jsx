@@ -32,10 +32,6 @@ function ReloadButton() {
     });
   }
 
-  useEffect(() => {
-    handleReload();
-  })
-
   return (
     <Button
       onClick={handleReload}

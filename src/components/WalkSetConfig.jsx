@@ -4,6 +4,8 @@ import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 
+import aruku_interfaces from '../proto/aruku_grpc_web_pb';
+
 import NumberField from './NumberField';
 import WalkContext from '../context/WalkContext';
 
@@ -16,7 +18,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 function WalkSetConfig() {
-  const { walking, kinematic, setPublished } = useContext(WalkContext);
+  const { grpc_web_address, walking, kinematic, setPublished } = useContext(WalkContext);
 
   const handlePublish = () => {
     const client = new aruku_interfaces.ConfigClient(grpc_web_address, null, null);

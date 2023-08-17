@@ -993,4 +993,4 @@ proto.aruku_interfaces.proto.Status.prototype.hasOdometry = function() {
 };
 
 
-goog.object.extend(exports, proto.aruku_interfaces.proto);
+export default proto.aruku_interfaces.proto;

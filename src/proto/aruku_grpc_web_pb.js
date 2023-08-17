@@ -319,5 +319,5 @@ proto.aruku_interfaces.proto.ConfigPromiseClient.prototype.setMainConfig =
 };
 
 
-module.exports = proto.aruku_interfaces.proto;
+export default proto.aruku_interfaces.proto;
 

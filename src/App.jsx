@@ -131,7 +131,7 @@ function App() {
       main,
       walking,
       kinematic,
-      setPublised,
+      setPublished,
       setKinematic,
       setMain,
       setWalking,
@@ -143,7 +143,7 @@ function App() {
       <Router>
         <Header />
         <Routes>
-          <Route path="/" element={<Walk/>} />
+          <Route path="/" element={<Walk />} />
           <Route path="/init" element={<Init />} />
         </Routes>
       </Router>
