@@ -26,7 +26,7 @@ const ItemValue = styled(Typography)(({ theme }) => ({
   padding: theme.spacing(1),
 }));
 
-function SwitchState({ name, value, type, handleChange }) {
+function SwitchState({ name, value, type }) {
   const {
     setMainValue, setWalkingValue,
   } = useContext(WalkContext);
@@ -46,11 +46,9 @@ function SwitchState({ name, value, type, handleChange }) {
           <Switch
             onChange={type === 'main' ? (event) => {
               setMainValue(name, event.target.checked);
-              handleChange();
             }
               : (event) => {
                 setWalkingValue('balance', name, event.target.checked);
-                handleChange();
               }}
             checked={value}
           />

@@ -22,7 +22,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 function InitSettings() {
   const {
-    grpc_web_address, setKinematic, setWalking,
+    grpc_web_address, published, setPublished, setKinematic, setWalking,
   } = useContext(WalkContext);
 
   const client = new aruku_interfaces.ConfigClient(grpc_web_address, null, null);
@@ -41,7 +41,10 @@ function InitSettings() {
   }
 
   useEffect(() => {
+    if (!published) {
       handleFetch();
+      setPublished(true);
+    }
   }, [])
 
   return (

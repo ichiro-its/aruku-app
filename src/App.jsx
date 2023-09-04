@@ -9,6 +9,8 @@ import WalkContext from './context/WalkContext';
 function App() {
   const grpc_web_address = 'http://192.168.1.4:8080';
 
+  const [published, setPublished] = useState(false);
+
   const [main, setMain] = useState({
     start: false,
     x: 0.0,
@@ -41,6 +43,12 @@ function App() {
       yaw_offset: 0.0,
       z_offset: 0.0,
       x_offset: 0.0,
+    },
+    length: {
+      leg_length: 0.0,
+      thigh_length: 0.0,
+      calf_length: 0.0,
+      ankle_length: 0.0,
     },
   });
 
@@ -119,9 +127,11 @@ function App() {
   return (
     <WalkContext.Provider value={{
       grpc_web_address,
+      published,
       main,
       walking,
       kinematic,
+      setPublished,
       setKinematic,
       setMain,
       setWalking,

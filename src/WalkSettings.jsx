@@ -25,7 +25,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 function WalkSettings() {
   const {
-    grpc_web_address, walking, kinematic, setKinematic, setWalking,
+    grpc_web_address, published, walking, kinematic, setPublished, setKinematic, setWalking,
   } = useContext(WalkContext);
 
   const client = new aruku_interfaces.ConfigClient(grpc_web_address, null, null);
@@ -44,7 +44,10 @@ function WalkSettings() {
   }
 
   useEffect(() => {
-    handleFetch();
+    if (!published) {
+      handleFetch();
+      setPublished(true);
+    }
   }, [])
 
   return (
@@ -58,7 +61,7 @@ function WalkSettings() {
                 .map((key) => {
                   if (typeof walking.balance[key] === 'boolean') {
                     return (
-                      <SwitchActive name={key} value={walking.balance[key]} type="walking" handleChange={handleFetch}/>
+                      <SwitchActive name={key} value={walking.balance[key]} type="walking" />
                     );
                   }
                   return (

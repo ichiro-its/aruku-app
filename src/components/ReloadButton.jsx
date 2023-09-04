@@ -9,7 +9,7 @@ import WalkContext from '../context/WalkContext';
 
 function ReloadButton() {
   const {
-    grpc_web_address, setKinematic, setWalking
+    grpc_web_address, setPublished, setKinematic, setWalking
   } = useContext(WalkContext);
 
   const client = new aruku_interfaces.ConfigClient(grpc_web_address, null, null);
@@ -25,6 +25,7 @@ function ReloadButton() {
         setWalking(JSON.parse(response.array[1]));
       }
     });
+    setPublished(false);
   }
 
   return (
