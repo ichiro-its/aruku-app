@@ -110,6 +110,12 @@ function App() {
       right_ankle_roll: 1,
       right_ankle_pitch: -1,
     },
+    length: {
+      thigh_length: 0.0,
+      calf_length: 0.0,
+      ankle_length: 0.0,
+      leg_length: 0.0,
+    }
   });
 
   const setMainValue = (name, value) => {
