@@ -18,10 +18,10 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 function WalkSetConfig() {
-  const { grpc_web_address, walking, kinematic } = useContext(WalkContext);
+  const { walking, kinematic } = useContext(WalkContext);
 
   const handlePublish = () => {
-    const client = new aruku_interfaces.ConfigClient(grpc_web_address, null, null);
+    const client = new aruku_interfaces.ConfigClient(`${import.meta.env.GRPC_WEB_API_URL}`, null, null);
     const message = new aruku_interfaces.ConfigWalking();
 
     message.setJsonKinematic(JSON.stringify(kinematic));

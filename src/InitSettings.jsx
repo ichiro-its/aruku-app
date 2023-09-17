@@ -22,10 +22,10 @@ const Item = styled(Paper)(({ theme }) => ({
 
 function InitSettings() {
   const {
-    grpc_web_address, published, setPublished, setKinematic, setWalking,
+    published, setPublished, setKinematic, setWalking,
   } = useContext(WalkContext);
 
-  const client = new aruku_interfaces.ConfigClient(grpc_web_address, null, null);
+  const client = new aruku_interfaces.ConfigClient(`${import.meta.env.GRPC_WEB_API_URL}`, null, null);
   const request = new aruku_interfaces.Empty();
 
   const handleFetch = () => {
