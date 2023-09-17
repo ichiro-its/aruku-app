@@ -28,12 +28,10 @@ function ReloadButton() {
   return (
     <Button
       onClick={handleReload}
-      // disabled={client == null || reloading}
       color="warning"
       variant="contained"
       sx={{ margin: 1, top: 5 }}
     >
-      {/* {reloading ? <CircularProgress size={24} /> : 'Reload'} */}
       Reload
     </Button>
   );
