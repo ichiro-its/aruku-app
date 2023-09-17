@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+/* eslint-disable no-useless-concat */
 import React, { useContext, useRef, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -31,21 +32,20 @@ function InitSettings() {
   const handleFetch = () => {
     client.getConfig(request, {}, (err, response) => {
       if (err) {
-        console.log(`Unexpected error: code = ${err.code}` +
-                    `, message = "${err.message}"`);
+        console.log(`Unexpected error: code = ${err.code}` + `, message = "${err.message}"`);
       } else {
         setKinematic(JSON.parse(response.array[0]));
         setWalking(JSON.parse(response.array[1]));
       }
     });
-  }
+  };
 
   useEffect(() => {
     if (!published) {
       handleFetch();
       setPublished(true);
     }
-  }, [])
+  }, []);
 
   return (
     <Box sx={{ flexGrow: 1 }}>

@@ -1,11 +1,12 @@
 /* eslint-disable no-unused-vars */
+/* eslint-disable no-useless-concat */
 import React, { useContext, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
-import aruku_interfaces from '../proto/aruku_grpc_web_pb'
+import aruku_interfaces from '../proto/aruku_grpc_web_pb';
 
 import NumberField from './NumberField';
 import WalkContext from '../context/WalkContext';
@@ -30,15 +31,14 @@ function InitSetConfig() {
 
     client.publishConfig(message, {}, (err, response) => {
       if (err) {
-        console.log(`Unexpected error: code = ${err.code}` +
-        `, message = "${err.message}"`);
+        console.log(`Unexpected error: code = ${err.code}` + `, message = "${err.message}"`);
       }
     });
-  }
+  };
 
   useEffect(() => {
     handlePublish();
-  }, [walking])
+  }, [walking]);
 
   return (
     <Grid container spacing={2}>

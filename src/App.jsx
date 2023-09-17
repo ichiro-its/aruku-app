@@ -113,7 +113,7 @@ function App() {
       calf_length: 0.0,
       ankle_length: 0.0,
       leg_length: 0.0,
-    }
+    },
   });
 
   const setMainValue = (name, value) => {

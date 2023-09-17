@@ -1,9 +1,10 @@
 /* eslint-disable no-unused-vars */
+/* eslint-disable no-useless-concat */
 import React, { useContext, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 
-import aruku_interfaces from '../proto/aruku_grpc_web_pb'
+import aruku_interfaces from '../proto/aruku_grpc_web_pb';
 
 import NumberField from './NumberField';
 import SwitchActive from './SwitchActive';
@@ -32,13 +33,12 @@ function WalkSetWalking() {
 
     client.setMainConfig(message, {}, (err, response) => {
       if (err) {
-        console.log(`Unexpected error: code = ${err.code}` +
-                    `, message = "${err.message}"`);
+        console.log(`Unexpected error: code = ${err.code}` + `, message = "${err.message}"`);
       } else {
         console.log(response);
       }
     });
-  }
+  };
 
   useEffect(() => {
     handleSetWalking();

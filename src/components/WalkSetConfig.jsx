@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+/* eslint-disable no-useless-concat */
 import React, { useContext, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
@@ -29,17 +30,16 @@ function WalkSetConfig() {
 
     client.publishConfig(message, {}, (err, response) => {
       if (err) {
-        console.log(`Unexpected error: code = ${err.code}` +
-        `, message = "${err.message}"`);
+        console.log(`Unexpected error: code = ${err.code}` + `, message = "${err.message}"`);
       } else {
         console.log(response);
       }
     });
-  }
+  };
 
   useEffect(() => {
     handlePublish();
-  }, [walking, kinematic])
+  }, [walking, kinematic]);
 
   return (
     <Grid container xs={12} md={10} lg={8}>

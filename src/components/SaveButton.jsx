@@ -1,5 +1,6 @@
+/* eslint-disable no-useless-concat */
 import React, { useContext } from 'react';
-import { Button, CircularProgress } from '@mui/material';
+import { Button } from '@mui/material';
 
 import WalkContext from '../context/WalkContext';
 import aruku_interfaces from '../proto/aruku_grpc_web_pb';
@@ -11,13 +12,12 @@ function SaveButton() {
   const message = new aruku_interfaces.ConfigWalking();
 
   const handleSave = () => {
-    message.setJsonKinematic( JSON.stringify(kinematic));
+    message.setJsonKinematic(JSON.stringify(kinematic));
     message.setJsonWalking(JSON.stringify(walking));
 
-    client.saveConfig(message, {}, (err, response) => {
+    client.saveConfig(message, {}, (err) => {
       if (err) {
-        console.log(`Unexpected error: code = ${err.code}` +
-                    `, message = "${err.message}"`);
+        console.log(`Unexpected error: code = ${err.code}` + `, message = "${err.message}"`);
       }
     });
   };
