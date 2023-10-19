@@ -1,6 +1,6 @@
 /* eslint-disable no-useless-concat */
-import React, { useContext } from 'react';
-import { Button } from '@mui/material';
+import React, { useState, useContext } from 'react';
+import { LoadingButton } from '@mui/lab';
 
 import aruku_interfaces from '../proto/aruku_grpc_web_pb';
 
@@ -11,8 +11,11 @@ function ReloadButton() {
 
   const client = new aruku_interfaces.ConfigClient(GRPC_WEB_API_URL, null, null);
   const request = new aruku_interfaces.Empty();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleReload = () => {
+    setIsLoading(true);
+
     client.getConfig(request, {}, (err, response) => {
       if (err) {
         console.log(`Unexpected error: code = ${err.code}` + `, message = "${err.message}"`);
@@ -23,17 +26,19 @@ function ReloadButton() {
     });
 
     setPublished(false);
+    setIsLoading(false);
   };
 
   return (
-    <Button
+    <LoadingButton
       onClick={handleReload}
       color="warning"
       variant="contained"
       sx={{ margin: 1, top: 5 }}
+      loading={isLoading}
     >
       Reload
-    </Button>
+    </LoadingButton>
   );
 }
 
