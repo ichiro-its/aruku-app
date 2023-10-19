@@ -7,7 +7,9 @@ import aruku_interfaces from '../proto/aruku_grpc_web_pb';
 import WalkContext from '../context/WalkContext';
 
 function ReloadButton() {
-  const { GRPC_WEB_API_URL, setPublished, setKinematic, setWalking } = useContext(WalkContext);
+  const {
+    GRPC_WEB_API_URL, setPublished, setKinematic, setWalking,
+  } = useContext(WalkContext);
 
   const client = new aruku_interfaces.ConfigClient(GRPC_WEB_API_URL, null, null);
   const request = new aruku_interfaces.Empty();

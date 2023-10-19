@@ -7,7 +7,7 @@ import Init from './InitSettings';
 import WalkContext from './context/WalkContext';
 
 function App() {
-  const GRPC_WEB_API_URL = "http://localhost:8080";
+  const GRPC_WEB_API_URL = import.meta.env.VITE_GRPC_WEB_API_URL;
 
   const [published, setPublished] = useState(false);
 
