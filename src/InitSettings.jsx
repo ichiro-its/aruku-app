@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-useless-concat */
-import React, { useContext, useRef, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -23,10 +23,10 @@ const Item = styled(Paper)(({ theme }) => ({
 
 function InitSettings() {
   const {
-    published, setPublished, setKinematic, setWalking,
+    GRPC_WEB_API_URL, published, setPublished, setKinematic, setWalking,
   } = useContext(WalkContext);
 
-  const client = new aruku_interfaces.ConfigClient(`${import.meta.env.GRPC_WEB_API_URL}`, null, null);
+  const client = new aruku_interfaces.ConfigClient(GRPC_WEB_API_URL, null, null);
   const request = new aruku_interfaces.Empty();
 
   const handleFetch = () => {

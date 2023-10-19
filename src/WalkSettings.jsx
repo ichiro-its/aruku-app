@@ -26,10 +26,10 @@ const Item = styled(Paper)(({ theme }) => ({
 
 function WalkSettings() {
   const {
-    published, walking, kinematic, setPublished, setKinematic, setWalking,
+    GRPC_WEB_API_URL, published, walking, kinematic, setPublished, setKinematic, setWalking,
   } = useContext(WalkContext);
 
-  const client = new aruku_interfaces.ConfigClient(`${import.meta.env.GRPC_WEB_API_URL}`, null, null);
+  const client = new aruku_interfaces.ConfigClient(GRPC_WEB_API_URL, null, null);
   const request = new aruku_interfaces.Empty();
 
   const handleFetch = () => {

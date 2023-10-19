@@ -6,9 +6,9 @@ import WalkContext from '../context/WalkContext';
 import aruku_interfaces from '../proto/aruku_grpc_web_pb';
 
 function SaveButton() {
-  const { kinematic, walking } = useContext(WalkContext);
+  const { GRPC_WEB_API_URL, kinematic, walking } = useContext(WalkContext);
 
-  const client = new aruku_interfaces.ConfigClient(`${import.meta.env.GRPC_WEB_API_URL}`, null, null);
+  const client = new aruku_interfaces.ConfigClient(GRPC_WEB_API_URL, null, null);
   const message = new aruku_interfaces.ConfigWalking();
 
   const handleSave = () => {

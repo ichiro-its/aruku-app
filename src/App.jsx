@@ -7,6 +7,9 @@ import Init from './InitSettings';
 import WalkContext from './context/WalkContext';
 
 function App() {
+  const GRPC_WEB_API_URL = import.meta.env.VITE_GRPC_WEB_API_URL;
+
+  console.log(GRPC_WEB_API_URL);
   const [published, setPublished] = useState(false);
 
   const [main, setMain] = useState({
@@ -130,6 +133,7 @@ function App() {
 
   return (
     <WalkContext.Provider value={{
+      GRPC_WEB_API_URL,
       published,
       main,
       walking,

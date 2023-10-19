@@ -19,9 +19,9 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 function WalkSetWalking() {
-  const { main } = useContext(WalkContext);
+  const { GRPC_WEB_API_URL, main } = useContext(WalkContext);
 
-  const client = new aruku_interfaces.ConfigClient(`${import.meta.env.GRPC_WEB_API_URL}`, null, null);
+  const client = new aruku_interfaces.ConfigClient(GRPC_WEB_API_URL, null, null);
   const message = new aruku_interfaces.SetWalking();
 
   const handleSetWalking = () => {
