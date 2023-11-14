@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import {
-  BridgeProvider, BridgeConnection, LoggerProvider, NodeProvider, SessionProvider, ClientProvider,
-} from 'kumo-app';
 import Header from './components/Header';
 
 import Walk from './WalkSettings';
@@ -10,6 +7,10 @@ import Init from './InitSettings';
 import WalkContext from './context/WalkContext';
 
 function App() {
+  const GRPC_WEB_API_URL = import.meta.env.VITE_GRPC_WEB_API_URL;
+
+  const [published, setPublished] = useState(false);
+
   const [main, setMain] = useState({
     start: false,
     x: 0.0,
@@ -44,10 +45,10 @@ function App() {
       x_offset: 0.0,
     },
     length: {
-      thigh_length: 134.0,
-      calf_length: 112.0,
-      ankle_length: 34.0,
-      leg_length: 280.0,
+      leg_length: 0.0,
+      thigh_length: 0.0,
+      calf_length: 0.0,
+      ankle_length: 0.0,
     },
   });
 
@@ -109,6 +110,12 @@ function App() {
       right_ankle_roll: 1,
       right_ankle_pitch: -1,
     },
+    length: {
+      thigh_length: 0.0,
+      calf_length: 0.0,
+      ankle_length: 0.0,
+      leg_length: 0.0,
+    },
   });
 
   const setMainValue = (name, value) => {
@@ -125,9 +132,12 @@ function App() {
 
   return (
     <WalkContext.Provider value={{
+      GRPC_WEB_API_URL,
+      published,
       main,
       walking,
       kinematic,
+      setPublished,
       setKinematic,
       setMain,
       setWalking,
@@ -136,27 +146,13 @@ function App() {
       setKinematicValue,
     }}
     >
-      <LoggerProvider>
-        <BridgeProvider>
-          <BridgeConnection />
-          <SessionProvider>
-            <NodeProvider nodeName="aruku_app">
-              <ClientProvider
-                serviceType="aruku_interfaces/srv/GetConfig"
-                serviceName="/aruku/config/get_config"
-              >
-                <Router>
-                  <Header />
-                  <Routes>
-                    <Route path="/" element={<Walk />} />
-                    <Route path="/init" element={<Init />} />
-                  </Routes>
-                </Router>
-              </ClientProvider>
-            </NodeProvider>
-          </SessionProvider>
-        </BridgeProvider>
-      </LoggerProvider>
+      <Router>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Walk />} />
+          <Route path="/init" element={<Init />} />
+        </Routes>
+      </Router>
     </WalkContext.Provider>
   );
 }

@@ -28,7 +28,7 @@ const ItemValue = styled(Typography)(({ theme }) => ({
 
 function SwitchState({ name, value, type }) {
   const {
-    main, kinematic, walking, setMainValue, setWalkingValue,
+    setMainValue, setWalkingValue,
   } = useContext(WalkContext);
 
   return (
