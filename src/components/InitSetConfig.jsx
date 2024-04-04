@@ -1,11 +1,10 @@
-/* eslint-disable no-unused-vars */
 import React, { useContext, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
-import { useHandleProcess, useLogger, usePublisher } from 'kumo-app';
+import aruku_interfaces from '../proto/aruku_grpc_web_pb';
 
 import NumberField from './NumberField';
 import WalkContext from '../context/WalkContext';
@@ -19,28 +18,24 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 function InitSetConfig() {
-  const { walking, kinematic } = useContext(WalkContext);
+  const { GRPC_WEB_API_URL, kinematic, walking } = useContext(WalkContext);
 
-  const configPublisher = usePublisher();
-  const logger = useLogger();
+  const handlePublish = () => {
+    const client = new aruku_interfaces.ConfigClient(GRPC_WEB_API_URL, null, null);
+    const message = new aruku_interfaces.ConfigWalking();
 
-  const [publishingConfig, handlePublishConfig] = useHandleProcess(() => {
-    const json_kinematic = JSON.stringify(kinematic);
-    const json_walking = JSON.stringify(walking);
-    return configPublisher
-      .publish({
-        json_kinematic, json_walking,
-      })
-      .then(() => {
-        logger.success('Successfully publish kinematic and walking config.');
-      })
-      .catch((err) => {
-        logger.error(`Failed to publish kinematic and walking config! ${err.message}.`);
-      });
-  }, 500);
+    message.setJsonKinematic(JSON.stringify(kinematic));
+    message.setJsonWalking(JSON.stringify(walking));
+
+    client.publishConfig(message, {}, (err) => {
+      if (err) {
+        console.log(`Unexpected error: code = ${err.code}, message = "${err.message}"`);
+      }
+    });
+  };
 
   useEffect(() => {
-    handlePublishConfig();
+    handlePublish();
   }, [walking]);
 
   return (

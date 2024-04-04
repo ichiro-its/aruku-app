@@ -1,49 +1,45 @@
-import React, {
-  useContext, useEffect,
-} from 'react';
-import { Button, CircularProgress } from '@mui/material';
+import React, { useState, useContext } from 'react';
+import { LoadingButton } from '@mui/lab';
 
-import { useClient, useHandleProcess, useLogger } from 'kumo-app';
+import aruku_interfaces from '../proto/aruku_grpc_web_pb';
 
 import WalkContext from '../context/WalkContext';
 
 function ReloadButton() {
   const {
-    setKinematicValue, setWalkingValue,
+    GRPC_WEB_API_URL, setPublished, setKinematic, setWalking,
   } = useContext(WalkContext);
 
-  const client = useClient();
-  const logger = useLogger();
+  const client = new aruku_interfaces.ConfigClient(GRPC_WEB_API_URL, null, null);
+  const request = new aruku_interfaces.Empty();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const [reloading, handleReload] = useHandleProcess(() => client
-    .call({})
-    .then((response) => {
-      logger.success('Successfully get config.');
-      const kinematic = JSON.parse(`${response.json_kinematic.replace('/\\/g', '')}`);
-      const walking = JSON.parse(`${response.json_walking.replace('/\\/g', '')}`);
-      Object.keys(kinematic).map((name) => Object.keys(kinematic[name])
-        .map((key) => setKinematicValue(name, key, kinematic[name][key])));
-      Object.keys(walking).map((name) => Object.keys(walking[name])
-        .map((key) => setWalkingValue(name, key, walking[name][key])));
-    })
-    .catch((err) => {
-      logger.error(`Failed to load config! ${err.message}.`);
-    }), 500);
+  const handleReload = () => {
+    setIsLoading(true);
 
-  useEffect(() => {
-    handleReload();
-  }, []);
+    client.getConfig(request, {}, (err, response) => {
+      if (err) {
+        console.log(`Unexpected error: code = ${err.code}, message = "${err.message}"`);
+      } else {
+        setKinematic(JSON.parse(response.array[0]));
+        setWalking(JSON.parse(response.array[1]));
+      }
+    });
+
+    setPublished(false);
+    setIsLoading(false);
+  };
 
   return (
-    <Button
+    <LoadingButton
       onClick={handleReload}
-      disabled={client == null || reloading}
       color="warning"
       variant="contained"
       sx={{ margin: 1, top: 5 }}
+      loading={isLoading}
     >
-      {reloading ? <CircularProgress size={24} /> : 'Reload'}
-    </Button>
+      Reload
+    </LoadingButton>
   );
 }
 

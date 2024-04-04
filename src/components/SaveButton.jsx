@@ -1,41 +1,40 @@
-import React, { useContext } from 'react';
-import { Button, CircularProgress } from '@mui/material';
-
-import { useClient, useHandleProcess, useLogger } from 'kumo-app';
+import React, { useState, useContext } from 'react';
+import { LoadingButton } from '@mui/lab';
 
 import WalkContext from '../context/WalkContext';
+import aruku_interfaces from '../proto/aruku_grpc_web_pb';
 
 function SaveButton() {
-  const { kinematic, walking } = useContext(WalkContext);
+  const { GRPC_WEB_API_URL, kinematic, walking } = useContext(WalkContext);
 
-  const client = useClient();
-  const logger = useLogger();
+  const client = new aruku_interfaces.ConfigClient(GRPC_WEB_API_URL, null, null);
+  const message = new aruku_interfaces.ConfigWalking();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const [saving, handleSave] = useHandleProcess(() => {
-    const json_kinematic = JSON.stringify(kinematic);
-    const json_walking = JSON.stringify(walking);
-    return client
-      .call({ json_kinematic, json_walking })
-      .then((response) => {
-        logger.success(
-          `Successfully save config with status ${response.status}.`,
-        );
-      })
-      .catch((err) => {
-        logger.error(`Failed to save config! ${err.message}.`);
-      });
-  }, 500);
+  const handleSave = () => {
+    setIsLoading(true);
+    message.setJsonKinematic(JSON.stringify(kinematic));
+    message.setJsonWalking(JSON.stringify(walking));
+
+    client.saveConfig(message, {}, (err) => {
+      if (err) {
+        console.log(`Unexpected error: code = ${err.code}, message = "${err.message}"`);
+      }
+    });
+
+    setIsLoading(false);
+  };
 
   return (
-    <Button
+    <LoadingButton
       onClick={handleSave}
-      disabled={client == null || saving}
       color="primary"
       variant="contained"
       sx={{ margin: 1, top: 5 }}
+      loading={isLoading}
     >
-      {saving ? <CircularProgress size={24} /> : 'Save'}
-    </Button>
+      Save
+    </LoadingButton>
   );
 }
 
