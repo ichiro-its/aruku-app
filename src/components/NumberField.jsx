@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { styled } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
@@ -22,12 +21,6 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const ItemTitle = styled(Typography)(({ theme }) => ({
   textAlign: 'left',
-  padding: theme.spacing(1),
-  fontSize: '0.9rem',
-}));
-
-const ItemValue = styled(Typography)(({ theme }) => ({
-  textAlign: 'center',
   padding: theme.spacing(1),
   fontSize: '0.9rem',
 }));

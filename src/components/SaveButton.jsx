@@ -1,4 +1,3 @@
-/* eslint-disable no-useless-concat */
 import React, { useState, useContext } from 'react';
 import { LoadingButton } from '@mui/lab';
 
@@ -19,7 +18,7 @@ function SaveButton() {
 
     client.saveConfig(message, {}, (err) => {
       if (err) {
-        console.log(`Unexpected error: code = ${err.code}` + `, message = "${err.message}"`);
+        console.log(`Unexpected error: code = ${err.code}, message = "${err.message}"`);
       }
     });
 

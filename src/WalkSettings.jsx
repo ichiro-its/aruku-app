@@ -35,7 +35,7 @@ function WalkSettings() {
   const handleFetch = () => {
     client.getConfig(request, {}, (err, response) => {
       if (err) {
-        console.log(`Unexpected error: code = ${err.code}` + `, message = "${err.message}"`);
+        console.log(`Unexpected error: code = ${err.code}, message = "${err.message}"`);
       } else {
         setKinematic(JSON.parse(response.array[0]));
         setWalking(JSON.parse(response.array[1]));

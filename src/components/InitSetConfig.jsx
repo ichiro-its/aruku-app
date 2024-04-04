@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-useless-concat */
 import React, { useContext, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
@@ -29,9 +27,9 @@ function InitSetConfig() {
     message.setJsonKinematic(JSON.stringify(kinematic));
     message.setJsonWalking(JSON.stringify(walking));
 
-    client.publishConfig(message, {}, (err, response) => {
+    client.publishConfig(message, {}, (err) => {
       if (err) {
-        console.log(`Unexpected error: code = ${err.code}` + `, message = "${err.message}"`);
+        console.log(`Unexpected error: code = ${err.code}, message = "${err.message}"`);
       }
     });
   };

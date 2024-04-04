@@ -1,22 +1,10 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-useless-concat */
 import React, { useContext, useEffect } from 'react';
-import { styled } from '@mui/material/styles';
-import Paper from '@mui/material/Paper';
 
 import aruku_interfaces from '../proto/aruku_grpc_web_pb';
 
 import NumberField from './NumberField';
 import SwitchActive from './SwitchActive';
 import WalkContext from '../context/WalkContext';
-
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-}));
 
 function WalkSetWalking() {
   const { GRPC_WEB_API_URL, main } = useContext(WalkContext);
@@ -33,7 +21,7 @@ function WalkSetWalking() {
 
     client.setMainConfig(message, {}, (err, response) => {
       if (err) {
-        console.log(`Unexpected error: code = ${err.code}` + `, message = "${err.message}"`);
+        console.log(`Unexpected error: code = ${err.code}, message = "${err.message}"`);
       } else {
         console.log(response);
       }
