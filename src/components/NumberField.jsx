@@ -37,21 +37,23 @@ function NumberField(props) {
   } = useContext(WalkContext);
 
   function setValue(val) {
+    let value_change = val;
     if (type === 'main') {
-      val *= 10;
-      setMainValue(keys, value + val);
+      value_change *= 10;
+      setMainValue(keys, value + value_change);
     } else if (type === 'walking') {
       switch (name) {
         case 'balance':
-          val /= 10;
+          value_change /= 10;
           break;
-
         case 'pid':
-          val *= 10;
+          value_change *= 10;
+          break;
+        default:
           break;
       }
 
-      setWalkingValue(name, keys, value + val);
+      setWalkingValue(name, keys, value + value_change);
     } else {
       switch (name) {
         case 'offset':
@@ -59,24 +61,30 @@ function NumberField(props) {
             case 'x_offset':
             case 'y_offset':
             case 'z_offset':
-              val *= 10;
+              value_change *= 10;
+              break;
+            default:
               break;
           }
           break;
-        
+
         case 'ratio':
           switch (keys) {
             case 'foot_height':
             case 'period_time':
-              val *= 10;
+              value_change *= 10;
               break;
             default:
-              val /= 10;
+              value_change /= 10;
               break;
           }
+          break;
+
+        default:
+          break;
       }
 
-      setKinematicValue(name, keys, value + val);
+      setKinematicValue(name, keys, value + value_change);
     }
   }
   function changeValue(val) {
