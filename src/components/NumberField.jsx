@@ -38,10 +38,44 @@ function NumberField(props) {
 
   function setValue(val) {
     if (type === 'main') {
+      val *= 10;
       setMainValue(keys, value + val);
     } else if (type === 'walking') {
+      switch (name) {
+        case 'balance':
+          val /= 10;
+          break;
+
+        case 'pid':
+          val *= 10;
+          break;
+      }
+
       setWalkingValue(name, keys, value + val);
     } else {
+      switch (name) {
+        case 'offset':
+          switch (keys) {
+            case 'x_offset':
+            case 'y_offset':
+            case 'z_offset':
+              val *= 10;
+              break;
+          }
+          break;
+        
+        case 'ratio':
+          switch (keys) {
+            case 'foot_height':
+            case 'period_time':
+              val *= 10;
+              break;
+            default:
+              val /= 10;
+              break;
+          }
+      }
+
       setKinematicValue(name, keys, value + val);
     }
   }
@@ -64,12 +98,12 @@ function NumberField(props) {
           </ItemTitle>
         </Grid>
         <Grid item xs={1}>
-          <IconButton onClick={() => setValue(-10)}>
+          <IconButton onClick={() => setValue(-1)}>
             <KeyboardDoubleArrowLeftIcon />
           </IconButton>
         </Grid>
         <Grid item xs={1}>
-          <IconButton onClick={() => setValue(-1)}>
+          <IconButton onClick={() => setValue(-0.1)}>
             <KeyboardArrowLeft />
           </IconButton>
         </Grid>
@@ -93,12 +127,12 @@ function NumberField(props) {
           />
         </Grid>
         <Grid item xs={1}>
-          <IconButton onClick={() => setValue(1)}>
+          <IconButton onClick={() => setValue(0.1)}>
             <KeyboardArrowRight />
           </IconButton>
         </Grid>
         <Grid item xs={1}>
-          <IconButton onClick={() => setValue(10)}>
+          <IconButton onClick={() => setValue(1)}>
             <KeyboardDoubleArrowRightIcon />
           </IconButton>
         </Grid>
