@@ -37,7 +37,7 @@ function NumberField(props) {
   } = useContext(WalkContext);
 
   function setValue(val) {
-    let value_change = val;
+    let value_change;
     if (type === 'main') {
       value_change *= 10;
       setMainValue(keys, value + value_change);
@@ -50,6 +50,7 @@ function NumberField(props) {
           value_change *= 10;
           break;
         default:
+          value_change = val;
           break;
       }
 
@@ -64,6 +65,7 @@ function NumberField(props) {
               value_change *= 10;
               break;
             default:
+              value_change = val;
               break;
           }
           break;
@@ -81,6 +83,7 @@ function NumberField(props) {
           break;
 
         default:
+          value_change = val;
           break;
       }
 
