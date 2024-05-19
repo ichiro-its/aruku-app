@@ -39,15 +39,15 @@ function NumberField(props) {
   function setValue(val) {
     let value_change;
     if (type === 'main') {
-      value_change *= 10;
+      value_change = val * 10;
       setMainValue(keys, value + value_change);
     } else if (type === 'walking') {
       switch (name) {
         case 'balance':
-          value_change /= 10;
+          value_change = val / 10;
           break;
         case 'pid':
-          value_change *= 10;
+          value_change = val * 10;
           break;
         default:
           value_change = val;
@@ -62,7 +62,7 @@ function NumberField(props) {
             case 'x_offset':
             case 'y_offset':
             case 'z_offset':
-              value_change *= 10;
+              value_change = val * 10;
               break;
             default:
               value_change = val;
@@ -74,10 +74,10 @@ function NumberField(props) {
           switch (keys) {
             case 'foot_height':
             case 'period_time':
-              value_change *= 10;
+              value_change = val * 10;
               break;
             default:
-              value_change /= 10;
+              value_change = val / 10;
               break;
           }
           break;
