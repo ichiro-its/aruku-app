@@ -26,7 +26,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 function WalkSettings() {
   const {
-    GRPC_WEB_API_URL, published, walking, kinematic, setPublished, setKinematic, setWalking,
+    GRPC_WEB_API_URL, published, walking, kinematic, setPublished, setKinematicValue, setWalkingValue,
   } = useContext(WalkContext);
 
   const client = new aruku_interfaces.ConfigClient(GRPC_WEB_API_URL, null, null);
@@ -37,8 +37,21 @@ function WalkSettings() {
       if (err) {
         console.log(`Unexpected error: code = ${err.code}, message = "${err.message}"`);
       } else {
-        setKinematic(JSON.parse(response.array[0]));
-        setWalking(JSON.parse(response.array[1]));
+        const kinematic = JSON.parse(response.array[0]);
+        const walking = JSON.parse(response.array[1]);
+
+        Object.keys(kinematic).forEach(name => {
+          Object.entries(kinematic[name]).forEach(([key, value]) => {
+            console.log(typeof value);
+            setKinematicValue(name, key, value);
+          });
+        })
+
+        Object.keys(walking).forEach(name => {
+          Object.entries(walking[name]).forEach(([key, value]) => {
+            setWalkingValue(name, key, value);
+          });
+        })
       }
     });
   };
